@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ctf," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Azure's Laboratory" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="又是一年拉斯维加斯。 游记任务（1/1）什么，问我为什么现在才写？其实早就打算这次要写点什么东西，纪念一下。谁知道比赛结束后看到ooo说要放第三天记分板，就想等到记分板出了一起写。 我等的花都谢了……这都一个月了，准备先写一个(:з」∠)毕竟……感觉再不写很多细节都要忘记了lolDEFCON 26 CTF参赛记 from MaskRayDEFCON 26 CTF final summary fro">
+<meta name="keywords" content="ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DEF CON CTF 26 Final之旅">
+<meta property="og:url" content="https://azure.kdays.cn/2018/09/07/DEF-CON-CTF-26-Final/index.html">
+<meta property="og:site_name" content="Azure&#39;s Laboratory">
+<meta property="og:description" content="又是一年拉斯维加斯。 游记任务（1/1）什么，问我为什么现在才写？其实早就打算这次要写点什么东西，纪念一下。谁知道比赛结束后看到ooo说要放第三天记分板，就想等到记分板出了一起写。 我等的花都谢了……这都一个月了，准备先写一个(:з」∠)毕竟……感觉再不写很多细节都要忘记了lolDEFCON 26 CTF参赛记 from MaskRayDEFCON 26 CTF final summary fro">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_2.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_1.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3685.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3696.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3695.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3711.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3714.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_ORG_DSC01940.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3735.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3764.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_3.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_4.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_5.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_6.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_7.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_8.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_9.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_10.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_11.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_12.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_13.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/def26_14.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3935.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3768.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_ORG_DSC02635.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3915.jpg">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2018/09/ex_IMG_3917.jpg">
+<meta property="og:updated_time" content="2018-09-07T16:51:37.975Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DEF CON CTF 26 Final之旅">
+<meta name="twitter:description" content="又是一年拉斯维加斯。 游记任务（1/1）什么，问我为什么现在才写？其实早就打算这次要写点什么东西，纪念一下。谁知道比赛结束后看到ooo说要放第三天记分板，就想等到记分板出了一起写。 我等的花都谢了……这都一个月了，准备先写一个(:з」∠)毕竟……感觉再不写很多细节都要忘记了lolDEFCON 26 CTF参赛记 from MaskRayDEFCON 26 CTF final summary fro">
+<meta name="twitter:image" content="https://azure.kdays.cn/uploads/2018/09/def26_2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://azure.kdays.cn/2018/09/07/DEF-CON-CTF-26-Final/"/>
+
+
+
+
+
+  <title>DEF CON CTF 26 Final之旅 | Azure's Laboratory</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Azure's Laboratory</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alpharomdie">
+          <a href="/onekeyunlock" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            AlphaROMdiE
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://azure.kdays.cn/2018/09/07/DEF-CON-CTF-26-Final/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Azure">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Azure's Laboratory">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DEF CON CTF 26 Final之旅</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-07T16:20:29+08:00">
+                2018-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/07/DEF-CON-CTF-26-Final/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/09/07/DEF-CON-CTF-26-Final/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/09/07/DEF-CON-CTF-26-Final/" class="leancloud_visitors" data-flag-title="DEF CON CTF 26 Final之旅">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>又是一年拉斯维加斯。</p>
+<h1 id="游记任务（1-1）"><a href="#游记任务（1-1）" class="headerlink" title="游记任务（1/1）"></a>游记任务（1/1）</h1><p>什么，问我为什么现在才写？<br><img src="/uploads/2018/09/def26_2.png" alt=""><br>其实早就打算这次要写点什么东西，纪念一下。谁知道比赛结束后看到ooo说要放第三天记分板，就想等到记分板出了一起写。<br><img src="/uploads/2018/09/def26_1.png" alt=""></p>
+<p>我等的花都谢了……这都一个月了，准备先写一个<em>(:з」∠)</em>毕竟……感觉再不写很多细节都要忘记了lol<br><a href="http://maskray.me/blog/2018-08-13-defcon-26-ctf" target="_blank" rel="external">DEFCON 26 CTF参赛记 from MaskRay</a><br><a href="https://ddaa.tw/defcon_26_other_summary.html" target="_blank" rel="external">DEFCON 26 CTF final summary from ddaa</a><br>友情链接递茶和hitcon两位大佬的游记，总结的都很赞，题目部分我就不重复分析了，这里只记述一下我这几天看到的DEFCON CTF见闻。</p>
+<h1 id="序章"><a href="#序章" class="headerlink" title="序章"></a>序章</h1><p>为了迎接比赛，我这次大概准备了一个多月。从DEF CON23第一次与0ops一起参与DEF CON开始，23那年美签被拒，DEF CON24那年第一次去美国，b1o0p带我经历了CGC并最后取得了第二，DEF CON25 A*0*E第一次出场并在决赛取得了第三的不错的成绩，今年是跟随A*0*E第二年出征DEF CON26。<br>说实在当年能得第三我还是感觉挺意（de）外（yi），因为感觉从前两天的情况没想到第三天能追进前三。<br>这次经过大家两天多的努力，取得了第四名的成绩，今年换了主办方，OOO带来了新的规则，也让King of Hill成为了DEF CON决赛中的重要一环。<br>OOO的新规则要求大家在攻防与KoH这三项中不能有短板项目，明显能感觉到OOO为了攻防赛一直广为诟病的积分规则上做了一些努力，总的来说比赛体验还可以，但是相比往年的DEF CON CTF只能说……<br>因为KoH平时很少出现在我们参加的决赛中，所以，哪怕两年参加SECCON的记忆全是每次KoH都被各种吊打，可是仍旧没有重视起来。最终求锤得锤求死得死，再次吃了KoH的亏<br>不过，这次DEF CON CTF应该是我参加DEF CON以来感觉最充实的一次。</p>
+<h1 id="赛前准备"><a href="#赛前准备" class="headerlink" title="赛前准备"></a>赛前准备</h1><p>为了比赛需要，我花了一个月的时间准备协作平台Polaris和自动攻击系统Railgun。<br>写这套系统最初的想法是为了解决以前使用CTFPad和之前的自动攻击系统运维难度大，CTFPad不是自己开发的，踩了坑以后修理耗时太长，所以在今年4月底的时候和@LyleCrash一起用Python写了协作平台Polaris，后来@spacemeowx2 重构了前端，在经历了Plaid CTF和DEF CON CTF Quals以后暂时宣告完成。<br>7月初和实习生@wangyihanger用golang参照RESTful API标准重构了协作平台的基础部分，后来我又重构了websocket部分和写了整个攻防部分需要的逻辑，7月下半月的时候@zsxsoft加入我们，再次重构了前端并添加了攻防部分需要的前端功能。7月底的时候@septyem为协作平台添加了IDA简单协作逆向的功能。两个喜爱炮姐的人@LyleCrash和我在这段时间写了Railgun作为比赛时用的自动攻击系统，@wangyihanger ‏写了第一版Python版的自动提交，后来@LyleCrash和我又对这个python版改了不少内容，基本完成。<br>比赛的时候我主要负责在现场运维两台NUC和VPS服务器以及上面的服务。<br>不过，比赛第一天发现这个版本还是有坑，不得不在开始后第一天晚上用nodejs又重写了一个自动提交的脚本。</p>
+<h2 id="8月7日"><a href="#8月7日" class="headerlink" title="8月7日"></a>8月7日</h2><p>赛前准备基本上榨干了我，那时候太忙了，以至于忙到压根没时间查看邮箱，凌晨要睡觉的时候才看到ooo发来的一封邮件，翻了一下发现了上一封是快一个星期以前发来的关于一些规则和现场情况的说明，还好只是一些无关紧要的规则，然后赶紧发到了群里。这时候我们才知道比赛的具体时间是PDT 8月10 早上10AM-8PM 11日10AM-8PM 12日10AM-2PM<br>(╯‵□′)╯︵┻━┻太匆忙了时间根本不够好不好！</p>
+<h2 id="8月8日"><a href="#8月8日" class="headerlink" title="8月8日"></a>8月8日</h2><p>当天乘坐加航AC26和AC1898从上海转机温哥华到拉斯维加斯。<br>温哥华直接转美国入境体验还是不错的，排队的人几乎没有，比起让人emmm的长队这种不用排队实在是可贵又幸福。美国的入境审查是在加拿大，不用入加拿大境的。不过，其他人几乎没人有加签，所以不太敢从加拿大转机，万一赶不上飞机要过夜，那简直不要太麻烦 ╮(╯_╰)╭<br>下午3:58的时候到达机场，4点50到的酒店，然后在flamingo和law开了一间房，匆匆休息了一下。<br>晚上的时候好多人都集中到达，自动签到机坏了，flamingo楼下的checkin排起了大长队，据说都是打ctf的各国友人，熟悉的面孔也不少。</p>
+<h2 id="8月9日"><a href="#8月9日" class="headerlink" title="8月9日"></a>8月9日</h2><p>你以为比赛就是除了比赛时间美滋滋逛街旅游睡大觉么？<br>太天真了孩子，来来来给你们看看我这一天干了啥：<br>0点45，光辉买来了炸鸡和水还有饮料，晚上没吃饭的小伙伴都过来吃了，好在买的够多不用打架，光辉万岁×3！<br>1点，据说checkin那边还在排队，同情一秒钟。<br>好容易到了早上，和@l4wio一起去拿了badge袋子，回来的路上碰到了hitcon的Orange正好也去取badge。<br><img src="/uploads/2018/09/ex_IMG_3685.jpg" alt=""><br>中午匆忙吃了点拉面垫吧，路上碰到了TokyoWestern的人并打了招呼。<br>其他时间一！直！在修Polaris的bug以及最后对功能进行一些调整。<br>晚上去套房配了路由，并把另一个路由的配置方法交给了@atiflody ，今年Flamingo房间网络带宽20M，凑合够用的程度。忙好后在套房里开了个小会，我讲了Polaris的用法，@septyem讲了IDA协作组件的用法。<br>本来想弄个直播录给国内的观众，结果发现Youtube直播注册以后要审一天……<br>折腾半天啥用没有，只能灰溜溜回去写文档……</p>
+<h2 id="8月10日"><a href="#8月10日" class="headerlink" title="8月10日"></a>8月10日</h2><p>累并快乐着。<br>为了方便队友，折腾到早上4点28写出了一个Polaris的使用说明，可是好像还是有不少同学没去看这个文档，吐血一波。<br>接着说比赛，主办方一开始说是9点入场，然后9点20左右开始按次序叫我们入场……更坑爹的是，因为晚上折腾的太晚，Polaris测试数据库也没清理，进去以后花了一点时间稍微配了下网以后开始分发Polaris的token，再次吐血。<br>而这时候，已经9点45了。<br>可谁知这时忽然出来个坑，我去年的域名用的不是动态解析，让大家绑了一下，然后今年一开始有小部分人访问不到协作的那个markdown文档，这个后来也发现并修正了。<br>话说一开始上来的时候发现了不少Polaris扔到docker里以后外加nginx做转发产生的小坑，都快速的在10点之前修复了。<br>主办方表示十点半通网，这段时间没有公网和内网，网络链接是down的。继续吐血一波。<br>9点55的时候规则被公开在外网上，然后大家开始解读规则，这里其实我们花了半个小时也没把积分规则搞明白……<br>真正搞明白积分规则已经是第二天晚上了。<br>感觉规则方面的把握程度还是差的太远，毕竟有那么多人在线，但是真正愿意去看主办方文档并在群里讨论的却寥寥无几。<br>10点30第一个题目如约而至，名字叫reverse，题目类型是King Of Hill<br>坑爹的是，比赛开网后发现网络爆炸，速度甚至不如酒店的WiFi，延迟爆高无比(╯‵□′)╯︵┻━┻<br>10:45:19 踩了golang并发map的坑，golang在1.6以后map不是线程安全的，但是之前不知道这个问题，然后因为Websocket产生同时读写map造成Polaris崩溃<br>10:50:35，不知道rootcause的@zsxsoft和@wangyihanger 临时用把Polaris开在host上以及修改nginx反代端口的方法重启了Polaris。这段时间我忙于配置赛场OpenVPN没空顾及Polaris运维，@zsxsoft曾经在群里说了一句我理解错了后来因为这东西跑的没啥问题也就先那样了。<br>10点55现场OpenVPN通了<br>11点01的时候修复了Polaris文件上传的问题，nginx bodysize又一次忘记改了。<br>这个时候，我才发现Polaris的docker处于stop状态，看日志发现了golang并行读写map导致崩溃。<br>11点06椒哥做了libc的sig用于reverse<br>啊……感觉再吐血就凉凉了。</p>
+<p>11点38现场会周期给scoreboard，不给访问接口，我们的座位离屏幕很远，想要看到记分板很不方便<br>12点，主办方给出了game_state.json，@atiflody翻译了主办方的规则<br>12点30，准备了两台vps跑在现场的网络环境里<br>12点44 @zsxsoft做了第一版scoreboard的前端<br>12点57放了新题poool，然后又收回去了。后来得知是因为主办方被人撸了23333333<br>13点05发现了Polaris跑在了docker外面，然后因为nginx上配了好多acl导致各种神奇的错误，然后又把Polaris重新在跑在了docker里面。<br>13点15，几个Polaris的开发在琢磨主办方这个scoreboard的json到底应该怎么算才是最终得分，这个时候早就把规则丢到了九霄云外，所以完全是在猜计算方法……orz<br><img src="/uploads/2018/09/ex_IMG_3696.jpg" alt=""></p>
+<p>13点47，新题pointless。@zsxsoft修了scoreboard的一些bug<br>14点08我们才clone好pointless，这时候主办方git可用性非常差，后来主办方把这道题包扔到公网上去了。<br>这期间主办方网络全程爆炸，下载速度大概只有10K~50K不等<br>14点25 楼下网络和服务状态已经比较稳定，我在交代了@LyleCrash一些维护要点以后困得不行去楼上休息了<br>16点23我们现场桌子电源被人踢了(╯‵□′)╯︵┻━┻好在28分恢复电源，VPS是可用的，但是OpenVPN的赛场内网断了，好像没人发现这个事，鸡哥因为断网不方便做KoH在断网期间来了现场<br>17点55我下楼恢复网络，期间OpenVPN与主办方网络断开大概1个半小时，还好这期间没有自动攻击的题目正在运行，要不然就亏大了<br>18点40 @dmxcsnsbh 2+2本地getshell<br>19点12 诞生了第一个攻击flag<br>19点23 exp适配了Railgun，但是发现Railgun打不了，发现拉不下来exp，马上想到是@LyleCrash的token权限不对，然后检查以后果然不对，修了以后缺题目基础配置，马上加上了以后开始打全场，然后发现exp返回的flag都是空的<br>19点35 攻击脚本重新适配了Railgun，可以打全场<br>19点50 reverse下线<br>20点整第一天结束，主办方开会说去年legitbs拿到了1Gbps带宽，他们今年只有20～30Mbps，而且有两倍的队伍，明天9点入场10点开场，KoH会重新算分<br>20点19 讨论提交程序的效率问题，@zsxsoft建议用nodejs重写，@LyleCrash修了好久提交程序的bug，然后我则是花了一些时间用nodejs重写了提交程序。<br>Slipper说之所以一开始上的是KoH是因为攻防的patch管理有bug</p>
+<p>总的来说，整个过程非常紧张辛苦，不过偶尔还是有一些好玩的乐趣。<br>碰到了不少朋友：8点45的时候起床和@LyleCrash下楼去现场，电梯里碰到了老熟人Riatre和宋教授，在CTF赛场门前和Tea Delivers的人还有r3kpig的人聊了几句，在Tea Delivers看到了大学同专业的同学wirefish，还是非常开心的。<br>11点11现场开始放东北玩泥巴，感觉这一定要是国人才能懂空耳的乐趣，所以我们一直猜这音乐是slipper选的233333333<br><img src="/uploads/2018/09/ex_IMG_3695.jpg" alt=""></p>
+<h2 id="8月11日"><a href="#8月11日" class="headerlink" title="8月11日"></a>8月11日</h2><p>依旧是紧张忙碌的时间线。<br>晚上修Polaris bug修了一些，然后大概早上三点左右睡觉了<br>9点28 @zsxsoft优化了Polaris的nginx配置，scoreboard改直接读game_state.json<br>9点57宣布比赛10点半开始<br>10点开队长会，KoH重新算分后递茶和我们分数受到影响，还有说明patch是交了他就check，check完了马上告诉你过没过，不能看别人的patch，所有的patch通过http接口提交，一轮只能交一次，所有的patch需要重新提交。外网带宽升级，一个队10Mbps。<br>10点半宣布延迟到11点开赛<br>10点45的时候尝试了酒店网络，LTE开Wi-Fi，均不好使。<br>10点53网通了，team interface没开<br>11点08看到9架构KoH，11点13开放pointless攻击，主办方说不开2+2，大家做了一晚2+2感觉十分失落，并且这个时候team interface没开，打下来flag也没法交。<br>11点29，KoH9个架构的没有了，稍后又重新出现<br>11点50 Pointless可以连，交互几次就断了，2+2没开<br>11点55主办方说interface有bug在修<br>12点06 hitcon KoH11个arch<br>12点17 主办方宣布patching is alive，但是攻防题目都gg了，说题目30分钟以后上线<br>12点37 2+2开网<br>12点50 pointless开网，连不上。<br>13点新题oooediter<br>13点53发现主办方推flag时间和轮数更新时间不同步<br>14点09主办方表示pointless被d<br>14点15 Polaris开发小组又一次讨论了scoreboard计算方法但是这时候讨论得出的算法还是错的<br>14点38去跟主办方交涉flag推送的问题，主办方说会检查，但是从后面的积分板分析来看，并没有修复<br>14点50 主办方暂时下掉pointless，做此题的同学表示非常愤怒<br>15点28发现不能Exploit不能选多个依赖，后来晚上修bug的时候发现是我优化的时候把exploitid这一列给当成主键了不能重复。这里临时用直接ssh上去拉文件的方法解决了一下，这里因为这个bug oooeditor损失了一些得分，感觉十分遗憾。<br>15点40发现昨晚临时写的js提交脚本bug，15点42的时候修复<br>16点整，主办方宣布2+2退休了，做题同学表示做了一天是个死题，非常坑，然后做pointless的同学说你觉得这题最坑是因为没做pointless<br>16点20 poool放题<br>16点24 椒哥看到了poool没有patch字节限制，简直按捺不住内心的渴望<br>16点47 有同学把VPS玩挂了，重启，oooeditor还能打两个了<br>17点44宣布晚上9点结束<br>18点20新题bew<br>18点25 Flamingo网络挂了<br>19点05 caesars Wi-Fi挂了<br>19点10 poool DEFKOR00T一血<br>19点16 Flamingo网络恢复<br>19点21主办方宣布poool今天只能patch两次<br>19点34 bew打全场<br>19点45 pointless放流量<br>20点20新题目vchat，pointless退休<br>21点比赛结束，主办方诚恳的对pointless可用性问题作了道歉<br>比赛结束后Riatre来吐槽pointless和积分规则</p>
+<p><img src="/uploads/2018/09/ex_IMG_3711.png" alt=""><br><img src="/uploads/2018/09/ex_IMG_3714.jpg" alt=""><br>拉斯维加斯罕见的下了雨，手机上收到了推送的洪水警报和沙尘暴警报</p>
+<h2 id="8月12日"><a href="#8月12日" class="headerlink" title="8月12日"></a>8月12日</h2><p>2点@zsxsoft用新算法修正了积分板<br>5点56找到了多依赖的root cause并修复。<br>9点半队长会，主办方宣布代码写错导致防御分数计算错误，已重新算分，今天poool一个tick可以提交一个patch，但是patch大概会用4分钟检查可用性<br>10点开赛，poool没开<br>10点42宣布patch系统回滚，所有的patch需要重新打<br>10点45 poool开题<br>10点47 主办方外网断了，这期间我尝试使用酒店WiFi和DEF CON会场WiFi跑Railgun和自动提交脚本并运行了多个实例保证不会因为网络问题导致漏掉flag<br>11点32现场网络再次故障<br>12点DEFKOR00T reeducation 一血<br>13点10 发现了vchat的hint，其实早上队长会说了，我英语不行没理解到<br>13点30主办方表示可以上去领酒喝<br>13点40主办方网络再次故障，44分恢复<br>14点比赛结束，今年没有final countdown，四点半ending ceremony<br>大家纷纷吐槽三天看了三道死题，累计浪费时间达到两位数，web题第二天毫无通知改环境，pointless从头到尾连不上等问题。<br>赛后和slipper还有Riatre聊天，slipper说poool和vchat是他出的，递茶poool在第二天晚上写出了type confusion的exp，这个漏洞我们直到比赛结束前10分钟才写出来。<br>后来大家过来合影，然后去看闭幕式，被DEFCON主办方以满员的理由引到楼下以后发现楼下闭路电视坏了，回到二楼跟看门人员交涉以后谢大哥一个人进去听了一会，后来大家都回到房间看直播。<br>18点24主办方通过twitter放出最后排名。</p>
+<p><img src="/uploads/2018/09/ex_ORG_DSC01940.jpg" alt=""><br>现场运维合影</p>
+<p><img src="/uploads/2018/09/ex_IMG_3735.jpg" alt=""><br>大合影</p>
+<p><img src="/uploads/2018/09/ex_IMG_3764.jpg" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这里先用手上的数据做个小结吧，<br>oooeditor accept了106个独立flag，总共有107个长度为48的独立flag<br><img src="/uploads/2018/09/def26_3.png" alt=""></p>
+<p>bew accept了339个独立的flag，总共有346个长度为48的独立flag，其中第二天只accept了5个独立的flag。<br><img src="/uploads/2018/09/def26_4.png" alt=""></p>
+<p>twoplustwo accept了61个独立的flag，总共有228个长度为48的独立flag（主要是主办方在题目下线以后还在往这个题目推flag）<br><img src="/uploads/2018/09/def26_5.png" alt=""></p>
+<p>pointless从来没有用自动攻击打成功过<br>poool accept了529个独立flag，总共有542个长度为48的独立flag<br><img src="/uploads/2018/09/def26_6.png" alt=""></p>
+<p>reeducation accept了432个独立flag，总共有433个长度为48的独立flag<br><img src="/uploads/2018/09/def26_7.png" alt=""></p>
+<p>从主办方最后一天提供的记分板数据看</p>
+<ul>
+<li>serviceid=1 30 pointless</li>
+<li>serviceid=3 328 bew</li>
+<li>serviceid=4 116 oooeditor</li>
+<li>serviceid=5 179 twoplustwo 178轮截止</li>
+</ul>
+<h2 id="前两天总分变化趋势"><a href="#前两天总分变化趋势" class="headerlink" title="前两天总分变化趋势"></a>前两天总分变化趋势</h2><p><img src="/uploads/2018/09/def26_8.png" alt=""><br><img src="/uploads/2018/09/def26_9.png" alt=""><br><img src="/uploads/2018/09/def26_10.png" alt=""><br><img src="/uploads/2018/09/def26_11.png" alt=""><br><img src="/uploads/2018/09/def26_12.png" alt=""></p>
+<p>第二天攻防赛一开始到DEFKOR00T开始Poool打全场之前的队伍攻击数量曲线，可以明显的感受到推随机间隔时间推flag和pointless巨差的可用性对分数造成的影响，还有对不同的队伍可能存在的看脸概率能打成功的问题。这里大家后来赛后交流的时候都感觉shellphish是强行被避嫌，pointless这道题到最后大家应该都没怎么补、但是全场只有shellphish的这道题是可以被概率攻击成功的。<br><img src="/uploads/2018/09/def26_13.png" alt=""></p>
+<p>第二天DEFKOR00T打全场到第二天结束的攻击队伍数量曲线，大概在221轮附近的时候发现了flag random accept的情况并及时调整了自动提交程序的代码。<br>看积分曲线感觉是DEFKOR00T先首先poool和bew两道题打了全场，但是我清楚的记得主办方当时宣布的是Bew一血是PwnThyBytes，于是回去仔细观察了下bew这个题有人做出来以后的计分板发现了个很有趣的事情，PwnThyBytes首先在217轮攻击了TokyoWestern，然后紧随其后koreanbadass和mhackeroni都在218轮攻击了PPP，然后这个时候DEFKOR00T Bew开始打全场，PwnThyBytes直到219轮才开Bew始打全场，我们Bew紧随其后在220轮开始打全场。<br><img src="/uploads/2018/09/def26_14.png" alt=""></p>
+<p>以上，defcon26吐槽完毕。后面美西玩了5天，感谢AAA老司机全程开车，我全程在副驾一脸我想学开车.jpg。结束后第二天飞去SFO然后逛了旧金山，斯坦福，硅谷。刚下飞机就感受到了地中海气候的威力。在硅谷约了宋教授、h0twinter以及王老师keenjoy95，王老师请我们吃了川菜，感觉味道不错，然后宋教授带着我们逛了一圈Google以后就回到旧金山，沿一号公路一路向南逛了17里湾并在蒙特雷的餐馆巧遇陈少，错过了Big Sur以后游览了紫沙滩，一号公路ATT信号好都是骗人的，半程没信号，海象滩看了日落以后狂飙数百英里深夜赶到洛杉矶并在洛杉矶玩了两天，然后我周六早上的飞机LAX到YVR，在温哥华摸鱼一天弥补一下去年Pwn2Own没来得及玩温哥华的遗憾，非常感谢初中同学提供食宿并且全程带路。周日上午上了回上海的飞机。</p>
+<p><img src="/uploads/2018/09/ex_IMG_3935.png" alt=""><br>美西摸鱼团路线</p>
+<p><img src="/uploads/2018/09/ex_IMG_3768.jpg" alt=""><br>资深老司机</p>
+<p><img src="/uploads/2018/09/ex_ORG_DSC02635.jpg" alt=""><br>在Google园区的合照</p>
+<p><img src="/uploads/2018/09/ex_IMG_3915.jpg" alt=""><br>一号公路17里湾入口</p>
+<p><img src="/uploads/2018/09/ex_IMG_3917.jpg" alt=""><br>海象滩日落</p>
+<p>最后的最后再吐槽两句网鼎，改了个Polaris的离线版，两天比赛主要负责交flag和喊666，谢大哥🐂🍺。这么多人的攻防i春秋能运维成这样子凭良心讲还是不错的。</p>
+<p>最后欢迎各位大佬指出文章中的错误和不足，谢谢大家耐心看我吐槽～</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/13/BlueCodeCTF2017-writeup/" rel="next" title="BlueCodeCTF2017 writeup">
+                <i class="fa fa-chevron-left"></i> BlueCodeCTF2017 writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Azure" />
+          <p class="site-author-name" itemprop="name">Azure</p>
+           
+              <p class="site-description motion-element" itemprop="description">次元の壁乗り越えてあなたに会ってみたい</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/azure9" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/4zure9" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        <div>
+</p></p><img src="https://s07.flagcounter.com/count/9qfl/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_12/viewers_0/labels_0/pageviews_0/flags_0/" alt="Flag Counter" border="0">
+</div>
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#游记任务（1-1）"><span class="nav-number">1.</span> <span class="nav-text">游记任务（1/1）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序章"><span class="nav-number">2.</span> <span class="nav-text">序章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#赛前准备"><span class="nav-number">3.</span> <span class="nav-text">赛前准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8月7日"><span class="nav-number">3.1.</span> <span class="nav-text">8月7日</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8月8日"><span class="nav-number">3.2.</span> <span class="nav-text">8月8日</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8月9日"><span class="nav-number">3.3.</span> <span class="nav-text">8月9日</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8月10日"><span class="nav-number">3.4.</span> <span class="nav-text">8月10日</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8月11日"><span class="nav-number">3.5.</span> <span class="nav-text">8月11日</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8月12日"><span class="nav-number">3.6.</span> <span class="nav-text">8月12日</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前两天总分变化趋势"><span class="nav-number">4.1.</span> <span class="nav-text">前两天总分变化趋势</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Azure</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Gemini
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://azurea.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://azure.kdays.cn/2018/09/07/DEF-CON-CTF-26-Final/';
+          this.page.identifier = '2018/09/07/DEF-CON-CTF-26-Final/';
+          this.page.title = 'DEF CON CTF 26 Final之旅';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://azurea.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("O92bD9U1ATuDrAQiX3NJO0ek-gzGzoHsz", "y735HduW37MNSis1uoWGfb1h");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
