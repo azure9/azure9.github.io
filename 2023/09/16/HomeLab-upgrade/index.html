@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"azure.kdays.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="上次写blog还是上次。已经5年没写文章了。本篇文章主要讲讲我HomeLab的设备硬件升级的网络适配篇。主要突出一个能耗与省钱，all in two。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HomeLab升级笔记">
+<meta property="og:url" content="https://azure.kdays.cn/2023/09/16/HomeLab-upgrade/index.html">
+<meta property="og:site_name" content="Azure&#39;s Laboratory">
+<meta property="og:description" content="上次写blog还是上次。已经5年没写文章了。本篇文章主要讲讲我HomeLab的设备硬件升级的网络适配篇。主要突出一个能耗与省钱，all in two。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/1vswitch_image.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/1vswitchbackup_image.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/2vswitch_image.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/dswitch_image.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/ovpnserver.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/pfsense1.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/pfsense2.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/pfsensecert1.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/pfsensecert2.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/ovpnserver2.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/ovpnclient.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/dswitch00.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/dswitch01.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/dswitch02.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2023/09/dswitch03.png">
+<meta property="article:published_time" content="2023-09-16T10:09:37.000Z">
+<meta property="article:modified_time" content="2023-09-16T10:09:37.000Z">
+<meta property="article:author" content="Azure">
+<meta property="article:tag" content="security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://azure.kdays.cn/uploads/2023/09/1vswitch_image.png">
+
+
+<link rel="canonical" href="https://azure.kdays.cn/2023/09/16/HomeLab-upgrade/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://azure.kdays.cn/2023/09/16/HomeLab-upgrade/","path":"2023/09/16/HomeLab-upgrade/","title":"HomeLab升级笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HomeLab升级笔记 | Azure's Laboratory</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Azure's Laboratory</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-alpharomdie"><a href="/onekeyunlock" rel="section"><i class="fa fa-rocket fa-fw"></i>AlphaROMdiE</a></li><li class="menu-item menu-item-rss"><a href="/atom.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91"><span class="nav-number">2.</span> <span class="nav-text">网络拓扑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Machine1-1235Lv5"><span class="nav-number">2.1.</span> <span class="nav-text">Machine1 1235Lv5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Machine2-D-1581"><span class="nav-number">2.2.</span> <span class="nav-text">Machine2 D-1581</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-vSwitch"><span class="nav-number">2.3.</span> <span class="nav-text">Distributed vSwitch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ESXi-7"><span class="nav-number">3.</span> <span class="nav-text">ESXi 7</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fling-USB-Network-Native-Driver-for-ESXi"><span class="nav-number">3.1.</span> <span class="nav-text">Fling USB Network Native Driver for ESXi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pfSense"><span class="nav-number">3.2.</span> <span class="nav-text">pfSense</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TrueNAS-scale"><span class="nav-number">3.3.</span> <span class="nav-text">TrueNAS scale</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vCenter-7"><span class="nav-number">4.</span> <span class="nav-text">vCenter 7</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#machine2-vm-machine1-vm"><span class="nav-number">5.1.</span> <span class="nav-text">machine2 vm-&gt; machine1 vm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#machine2-vm-pfsense-machine1-vm"><span class="nav-number">5.2.</span> <span class="nav-text">machine2 vm-&gt; pfsense -&gt; machine1 vm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A2%8E%E7%A2%8E%E5%BF%B5"><span class="nav-number">6.</span> <span class="nav-text">碎碎念</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Azure"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Azure</p>
+  <div class="site-description" itemprop="description">次元の壁乗り越えてあなたに会ってみたい</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/azure9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;azure9" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/4zure9" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;4zure9" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+<div>
+</p></p><img src="https://s07.flagcounter.com/count/9qfl/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_12/viewers_0/labels_0/pageviews_0/flags_0/" alt="Flag Counter" border="0">
+</div>
+
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://azure.kdays.cn/2023/09/16/HomeLab-upgrade/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Azure">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Azure's Laboratory">
+      <meta itemprop="description" content="次元の壁乗り越えてあなたに会ってみたい">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HomeLab升级笔记 | Azure's Laboratory">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HomeLab升级笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-16 18:09:37" itemprop="dateCreated datePublished" datetime="2023-09-16T18:09:37+08:00">2023-09-16</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/09/16/HomeLab-upgrade/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/09/16/HomeLab-upgrade/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上次写blog还是上次。已经5年没写文章了。本篇文章主要讲讲我HomeLab的设备硬件升级的网络适配篇。主要突出一个能耗与省钱，all in two。</p>
+<span id="more"></span>
+<h2 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h2><p>HomeLab搭起来的时候还是2020年5月，当时选了贵出天际的E3-1235Lv5【对我就是大冤种，这里贴一下现在这台NAS上跑的装备购买日期和花销</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>数量</th>
+<th>单价(RMB)</th>
+<th>购买日期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E3-1235Lv5&#x2F;8G&#x2F;U-NAS八盘位&#x2F;Asrock ITX C236 WSI</td>
+<td>1</td>
+<td>3300</td>
+<td>2020&#x2F;4&#x2F;27</td>
+</tr>
+<tr>
+<td>16G ECC UDIMM 2400MHz</td>
+<td>2</td>
+<td>560</td>
+<td>2020&#x2F;4&#x2F;28</td>
+</tr>
+<tr>
+<td>HGST_HUS728T8TALE6L4 8T</td>
+<td>3</td>
+<td>1169.65</td>
+<td>2020&#x2F;4&#x2F;29</td>
+</tr>
+<tr>
+<td>ST4000VN008-2DR166 4T</td>
+<td>2</td>
+<td>812.52</td>
+<td>2020&#x2F;4&#x2F;29</td>
+</tr>
+<tr>
+<td>x16拆分HPE 530双口10G NVMe x2</td>
+<td>1</td>
+<td>334</td>
+<td>2022&#x2F;1&#x2F;24</td>
+</tr>
+<tr>
+<td>980 1TB</td>
+<td>2</td>
+<td>673.49</td>
+<td>2022&#x2F;4&#x2F;13</td>
+</tr>
+<tr>
+<td>TPM2-S</td>
+<td>1</td>
+<td>68</td>
+<td>2023&#x2F;6&#x2F;6</td>
+</tr>
+</tbody></table>
+<p>最近升级了下HomeLab的硬件配置，主要是平时工作需要开一堆测试环境，1235Lv5 4C4T的可用CPU资源低的可怜，32G的内存开了16G给freenas以后就剩下16G可以开虚拟机，也是到处捉襟见肘，众所周知vCenter跑起来咋说也得12G内存，这玩意跑在之前的HomeLab上还是太痛了。于是买了<a target="_blank" rel="noopener" href="https://www.mi-d.cn/1897">tank家的D-1581</a>。</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>数量</th>
+<th>单价(RMB)</th>
+<th>购买日期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mellanox OCP 单口10G</td>
+<td>1</td>
+<td>119</td>
+<td>2022&#x2F;1&#x2F;24</td>
+</tr>
+<tr>
+<td>980 Pro 2TB</td>
+<td>1</td>
+<td>1049</td>
+<td>2023&#x2F;4&#x2F;17</td>
+</tr>
+<tr>
+<td>Tank6盘位机箱电源套装</td>
+<td>1</td>
+<td>1039</td>
+<td>2023&#x2F;9&#x2F;6</td>
+</tr>
+<tr>
+<td>Tank D-1581 板U套装</td>
+<td>1</td>
+<td>669</td>
+<td>2023&#x2F;9&#x2F;6</td>
+</tr>
+<tr>
+<td>32G SK RECC 2666MHz</td>
+<td>4</td>
+<td>190</td>
+<td>2023&#x2F;9&#x2F;7</td>
+</tr>
+</tbody></table>
+<p>由于这个主板不支持独立TPM，另外功耗也稍微高一点，这两个设备算是优势互补了，所以要把这两个设备都用起来。从垃圾山里掏出了当年买的坏过一次的nvme MLC 256G ssd用作系统盘，这东西购买日期太久远了，价格可以忽略不计了。不得不吐槽一下国产之光长江存储是真的生猛，现在4T的pcie4 NVME都可以1032块拿下，太离谱了。我再等等，反正现在存储需求增长稳定，没啥大量新增的需求，估计能等到SATA的ssd铺货组全闪NAS。</p>
+<h2 id="网络拓扑"><a href="#网络拓扑" class="headerlink" title="网络拓扑"></a>网络拓扑</h2><h3 id="Machine1-1235Lv5"><a href="#Machine1-1235Lv5" class="headerlink" title="Machine1 1235Lv5"></a>Machine1 1235Lv5</h3><p><img src="/uploads/2023/09/1vswitch_image.png" alt="vSwitch"><br><img src="/uploads/2023/09/1vswitchbackup_image.png" alt="vSwitchBackup"><br>主板上有两个1GbE口，就用作万一网坏了的情况下的备胎口</p>
+<h3 id="Machine2-D-1581"><a href="#Machine2-D-1581" class="headerlink" title="Machine2 D-1581"></a>Machine2 D-1581</h3><p><img src="/uploads/2023/09/2vswitch_image.png" alt="vSwitch"><br>因为我把usb网卡拔了所以没有uplink，有临时需要插上去就可以了</p>
+<h3 id="Distributed-vSwitch"><a href="#Distributed-vSwitch" class="headerlink" title="Distributed vSwitch"></a>Distributed vSwitch</h3><p><img src="/uploads/2023/09/dswitch_image.png" alt="dSwitch"><br>其中TrueNAS是在Machine1的，vCenter是在Machine2的。配置方法后面再展开说。</p>
+<h2 id="ESXi-7"><a href="#ESXi-7" class="headerlink" title="ESXi 7"></a>ESXi 7</h2><p>首先，ESXi6.7 已经彻底EoL了，退一步用ESXi6.7从而利用上D1581主板的3个2.5GbE肯定是行不通的，这风险我是承担不起，虽然能通过运维手段把这玩意塞到封闭网段尽量降低被日可能性，但是被打出虚拟机逃逸的可能性依然不是0，那就还是算了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">To help customers with that transition, we are extending the general support period for vSphere 6.7. Originally, vSphere 6.7 was scheduled to reach EoGS (End of General Support) on November 15, 2021. We are extending this date by 11 months, to October 15, 2022.</span><br></pre></td></tr></table></figure>
+<p>那么要解决的问题就是如何用一张单口OCP10G卡和双口10G HPE530达成跨两个设备的实验环境组网。</p>
+<h3 id="Fling-USB-Network-Native-Driver-for-ESXi"><a href="#Fling-USB-Network-Native-Driver-for-ESXi" class="headerlink" title="Fling USB Network Native Driver for ESXi"></a>Fling USB Network Native Driver for ESXi</h3><p>因为<code>Realtek Semiconductor Co., Ltd. RTL8125 2.5GbE Controller</code> 在6.7以前是通过<code>vmklinux</code>兼容层实现的，这个在7被从kernel里删除了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">That depends on whether the driver type is “vmklinux” or “native” as the support for “vmklinux” drivers was removed in ESXi 7.</span><br></pre></td></tr></table></figure>
+<p>所以只能退一步用Fling的USB网卡。但是用了一天发现这东西十分不稳定，我也不知道是不是因为太热了，只要数据传输量大了时间长了他就直接掉设备摆烂，那这玩意就只能作为一个网卡的备份，如果临时有需求了再插上去。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">2023-09-15T14:55:47.593Z cpu12:2097798)WARNING: vmkusb_nic_fling: udev 0x430e91281248, endpoint 0x82: invalid state 5: Failure</span><br><span class="line">2023-09-15T14:55:47.613Z cpu7:2097797)uether_ifdetach: saved ue_unit as 0 ue-&gt;cached_mac 00:0e:c6:d2:fe:08</span><br><span class="line"></span><br><span class="line">2023-09-15T14:55:47.613Z cpu7:2097797)DMA: 732: DMA Engine &#x27;vusb0-dma-engine&#x27; destroyed.</span><br><span class="line">2023-09-15T14:55:47.613Z cpu7:2097797)NetPort: 1810: disabled port 0x8600000f</span><br><span class="line">2023-09-15T14:55:47.613Z cpu12:2114655)NetSched: 725: vusb0-0-tx: worldID = 2114655 exits</span><br><span class="line">2023-09-15T14:55:47.613Z cpu7:2097797)WARNING: World: vm 2114652: 3819: vm not found</span><br><span class="line">2023-09-15T14:55:47.613Z cpu7:2097797)WARNING: vmkusb_nic_fling: failed to destroy world 2114652: Not found</span><br></pre></td></tr></table></figure>
+<p>可以从这里下载<br><a target="_blank" rel="noopener" href="https://flings.vmware.com/usb-network-native-driver-for-esxi">https://flings.vmware.com/usb-network-native-driver-for-esxi</a></p>
+<p>安装说明也在上面的链接里</p>
+<h3 id="pfSense"><a href="#pfSense" class="headerlink" title="pfSense"></a>pfSense</h3><p>用来暴露在外面，比之前新开了一个openvpn的服务，这样可以从家里连到这里面直接操作里面的ip，就用不着额外再开一台vm做转发了。也不用每开一台vm就需要额外加一条forward规则，nat规则太多到最后自己都记不住哪个端口是哪台机器的。<br><img src="/uploads/2023/09/ovpnserver.png" alt="ovpnserver"><br>pfsense自带openvpn server，用起来还是挺方便的。<br>openvpn生成配置里需要改的两个地方是<code>IPv4隧道网络</code>和<code>IPv4本地网络</code>我这里分别是<code>192.168.254.0/24</code>和<code>192.168.0.0/16</code>。可以选择使用向导生成然后把验证方式改成TLS only【一个人用搞什么ACL控制<br><img src="/uploads/2023/09/pfsense1.png" alt="pfsense opt"><br><img src="/uploads/2023/09/pfsense2.png" alt="pfsense plug"><br>这里需要去插件里面装一个openvpn-client-export的插件，要不然没法生成配置。</p>
+<p>证书这边，需要一个ca，然后用这个ca签两个证书，一个是server的一个是client的<br><img src="/uploads/2023/09/pfsensecert1.png" alt="pfsense cert1"><br><img src="/uploads/2023/09/pfsensecert2.png" alt="pfsense cert2"><br>然后VPNServer配置那边关联一下ca签出来的server的证书，这个时候再去看client export就有个可以导出的client证书了<br><img src="/uploads/2023/09/ovpnserver2.png" alt="ovpn server2"><br>防火墙那边记得放通WAN对应的UDP端口和OpenVPN interface的流量。</p>
+<p>下载下来就可以直接用了。<br><img src="/uploads/2023/09/ovpnclient.png" alt="ovpnclient"></p>
+<h3 id="TrueNAS-scale"><a href="#TrueNAS-scale" class="headerlink" title="TrueNAS scale"></a>TrueNAS scale</h3><p>监听两个IP，一个在1235Lv5的Bridge区，一个在vSwitch的trusted vlan。监听俩IP的主要原因是pfsense的NAT转发效率低下，我最多就只能跑到140MB&#x2F;s，但是同vlan下能跨两个设备的VM传输SMB数据能跑到700MB&#x2F;s，对我来说足够用了。Bridge区的IP可以不监听ssh，把ssh开到trusted的vlan上。这样安全性又提升了。</p>
+<h2 id="vCenter-7"><a href="#vCenter-7" class="headerlink" title="vCenter 7"></a>vCenter 7</h2><p>在datacenter里添加一个<code>Distributed Switch</code><br><img src="/uploads/2023/09/dswitch00.png" alt="dswitch00"><br><img src="/uploads/2023/09/dswitch01.png" alt="dswitch01"><br><img src="/uploads/2023/09/dswitch02.png" alt="dswitch02"><br>两台机器网卡不一样，推荐一个一个添加，这样不容易搞混，最终成品就是参考上面拓扑图<br><img src="/uploads/2023/09/dswitch03.png" alt="dswitch03"><br>然后到两台机器到的configure页面给这边添加一个新的vmkernel卡，然后把它连到分布式虚拟交换机(Distributed vSwitch)的trusted vlan里<br>这样vcenter&#x2F;esxi1&#x2F;esxi2的管理IP就全都收到了trusted vlan里，可以通过先拨vpn再访问的方式进行管理【安全性又上了一个台阶。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此硬件软件升级都已完成，两台esxi间是万兆互联，外部连machine2的vm速度也不含糊。是躺着测速的时候了。</p>
+<h3 id="machine2-vm-machine1-vm"><a href="#machine2-vm-machine1-vm" class="headerlink" title="machine2 vm-&gt; machine1 vm"></a>machine2 vm-&gt; machine1 vm</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Connecting to host 192.168.10.2, port 5201</span><br><span class="line">[  5] local 192.168.10.29 port 60000 connected to 192.168.10.2 port 5201</span><br><span class="line">[ ID] Interval           Transfer     Bitrate         Retr  Cwnd</span><br><span class="line">[  5]   0.00-1.00   sec  1.01 GBytes  8.64 Gbits/sec  884   1.32 MBytes       </span><br><span class="line">[  5]   1.00-2.00   sec  1.06 GBytes  9.12 Gbits/sec   10   1.30 MBytes       </span><br><span class="line">[  5]   2.00-3.00   sec  1001 MBytes  8.40 Gbits/sec   14   1.24 MBytes       </span><br><span class="line">[  5]   3.00-4.00   sec  1.04 GBytes  8.95 Gbits/sec   34   1.27 MBytes       </span><br><span class="line">[  5]   4.00-5.00   sec  1.04 GBytes  8.97 Gbits/sec    3   1.38 MBytes       </span><br><span class="line">[  5]   5.00-6.00   sec  1.06 GBytes  9.13 Gbits/sec   24   1.36 MBytes       </span><br><span class="line">[  5]   6.00-7.00   sec  1.03 GBytes  8.88 Gbits/sec   87   1.18 MBytes       </span><br><span class="line">[  5]   7.00-8.00   sec  1.07 GBytes  9.15 Gbits/sec   14   1.17 MBytes       </span><br><span class="line">[  5]   8.00-9.00   sec  1.02 GBytes  8.77 Gbits/sec    0   1.49 MBytes       </span><br><span class="line">[  5]   9.00-10.00  sec  1.04 GBytes  8.96 Gbits/sec   68   1.32 MBytes       </span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">[ ID] Interval           Transfer     Bitrate         Retr</span><br><span class="line">[  5]   0.00-10.00  sec  10.4 GBytes  8.90 Gbits/sec  1138             sender</span><br><span class="line">[  5]   0.00-10.04  sec  10.4 GBytes  8.86 Gbits/sec                  receiver</span><br></pre></td></tr></table></figure>
+
+<h3 id="machine2-vm-pfsense-machine1-vm"><a href="#machine2-vm-pfsense-machine1-vm" class="headerlink" title="machine2 vm-&gt; pfsense -&gt; machine1 vm"></a>machine2 vm-&gt; pfsense -&gt; machine1 vm</h3><p>过了一层nat性能直接打2折，有点离谱，但也算正常，想不到啥简单的优化方法，难道能在mtu上做点文章？毕竟vlan多一个802.1q的头，估计包重组了，反正我给pfsense加cpu是没效果的，懒得看了。这也够用了，毕竟外网带宽也就跑到1.2Gbps。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Connecting to host nas, port 5201</span><br><span class="line">[  5] local 192.168.30.32 port 42858 connected to nas port 5201</span><br><span class="line">[ ID] Interval           Transfer     Bitrate         Retr  Cwnd</span><br><span class="line">[  5]   0.00-1.00   sec   147 MBytes  1.24 Gbits/sec   24    720 KBytes       </span><br><span class="line">[  5]   1.00-2.00   sec   171 MBytes  1.44 Gbits/sec   11    687 KBytes       </span><br><span class="line">[  5]   2.00-3.00   sec   159 MBytes  1.33 Gbits/sec    1    629 KBytes       </span><br><span class="line">[  5]   3.00-4.00   sec   175 MBytes  1.47 Gbits/sec   22    602 KBytes       </span><br><span class="line">[  5]   4.00-5.00   sec   178 MBytes  1.49 Gbits/sec    6    578 KBytes       </span><br><span class="line">[  5]   5.00-6.00   sec   166 MBytes  1.39 Gbits/sec    1    387 KBytes       </span><br><span class="line">[  5]   6.00-7.00   sec   164 MBytes  1.37 Gbits/sec    0    731 KBytes       </span><br><span class="line">[  5]   7.00-8.00   sec   182 MBytes  1.53 Gbits/sec    1    717 KBytes       </span><br><span class="line">[  5]   8.00-9.00   sec   165 MBytes  1.38 Gbits/sec    3    684 KBytes       </span><br><span class="line">[  5]   9.00-10.00  sec   168 MBytes  1.41 Gbits/sec   18    639 KBytes       </span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">[ ID] Interval           Transfer     Bitrate         Retr</span><br><span class="line">[  5]   0.00-10.00  sec  1.64 GBytes  1.40 Gbits/sec   87             sender</span><br><span class="line">[  5]   0.00-10.05  sec  1.63 GBytes  1.40 Gbits/sec                  receiver</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h2><ul>
+<li><p>为什么不是ESXi8</p>
+<ul>
+<li>因为ESXi8把ConnectX3支持干掉了，至少也得上ConnectX4lx的卡。有机会再续吧，毕竟ESXi7的EoL要到2027年4月了，到时候估计网卡的价格也下来了，能不能有家用40G&#x2F;100G呢？除非那个时候电费打骨折了，要不然我还要考虑下能效问题，毕竟10G的日常体验已经非常不错了。</li>
+</ul>
+</li>
+<li><p>为啥这么久没写文了</p>
+<ul>
+<li>过去几年发生的事情太多了，写文还是太浪费时间了。就是生活图个乐子吧，希望想抄作业的同学看完能少走些弯路。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/4zure9">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/09/07/DEF-CON-CTF-26-Final/" rel="prev" title="DEF CON CTF 26 Final之旅">
+                  <i class="fa fa-angle-left"></i> DEF CON CTF 26 Final之旅
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Azure</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"azurea","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
