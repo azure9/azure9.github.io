@@ -5,9 +5,106 @@
         <link>https://azure.kdays.cn</link>
         <description>次元の壁乗り越えてあなたに会ってみたい</description>
         <language>zh-CN</language>
-        <pubDate>Sat, 16 Sep 2023 18:09:37 +0800</pubDate>
-        <lastBuildDate>Sat, 16 Sep 2023 18:09:37 +0800</lastBuildDate>
+        <pubDate>Tue, 27 Aug 2024 22:20:00 +0800</pubDate>
+        <lastBuildDate>Tue, 27 Aug 2024 22:20:00 +0800</lastBuildDate>
         <category>ctf</category>
+        <item>
+            <guid isPermalink="true">https://azure.kdays.cn/2024/08/27/AMD9950x/</guid>
+            <title>PC升级笔记</title>
+            <link>https://azure.kdays.cn/2024/08/27/AMD9950x/</link>
+            <pubDate>Tue, 27 Aug 2024 22:20:00 +0800</pubDate>
+            <description><![CDATA[ &lt;p&gt;年更硬件博主今年又上线了。&lt;br&gt;主要是最近几个月有批量用IDA分析东西的需求，原来的11700F只有8C16T，还是差点事，正好苏妈又发了9950X，虽然俗话说amd冲首发是大冤种，JD AMD自营店耍猴，抢购按钮从来都没红过，秒没……&lt;br&gt;JD没货以后，咸鱼上上了一大堆加钱的，还有原地加800的，离谱。&lt;br&gt;chiphell上有人说pdd有散片，价格还行，看了下感觉确实还行，9950x+MSI X670E gaming plus wifi套装只要6249，犹豫了一天还是下单了，主要是天天盯着也难受，不如多花钱先享受一下。&lt;br&gt;今年主要突出一个性能与能耗比，价格嘛，我下了单还没发货就原地涨了480，到货那天那家店+1100，现在降到+750，这溢价，啧啧啧&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+&lt;h2 id=&#34;硬件&#34;&gt;&lt;a href=&#34;#硬件&#34; class=&#34;headerlink&#34; title=&#34;硬件&#34;&gt;&lt;/a&gt;硬件&lt;/h2&gt;&lt;p&gt;由于手里没有DDR5，所以干脆全换新了，硬盘用的之前的980Pro 2T，一共花了8909，希望这个PC能用个10年。&lt;/p&gt;
+&lt;p&gt;本次花销清单如下&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;设备&lt;/th&gt;
+&lt;th&gt;数量&lt;/th&gt;
+&lt;th&gt;单价(RMB)&lt;/th&gt;
+&lt;th&gt;购买日期&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;9950x+MSI X670E gaming plus wifi&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;6247&lt;/td&gt;
+&lt;td&gt;2024&amp;#x2F;8&amp;#x2F;16&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;威刚D500 64G(32x2) EXPO 6000MHz&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;1551.21&lt;/td&gt;
+&lt;td&gt;2024&amp;#x2F;8&amp;#x2F;14&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;金河田 白金A+850W ATX3.1&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;546.26&lt;/td&gt;
+&lt;td&gt;2024&amp;#x2F;8&amp;#x2F;19&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;九州风神CH560R&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;329&lt;/td&gt;
+&lt;td&gt;2024&amp;#x2F;7&amp;#x2F;27&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;利民PA140&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;207.96&lt;/td&gt;
+&lt;td&gt;2024&amp;#x2F;7&amp;#x2F;23&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;利民TL-C12C&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;14.69&lt;/td&gt;
+&lt;td&gt;2024&amp;#x2F;8&amp;#x2F;25&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;毕亚兹DP线&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;12.94&lt;/td&gt;
+&lt;td&gt;2024&amp;#x2F;8&amp;#x2F;26&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;h2 id=&#34;装机&#34;&gt;&lt;a href=&#34;#装机&#34; class=&#34;headerlink&#34; title=&#34;装机&#34;&gt;&lt;/a&gt;装机&lt;/h2&gt;&lt;p&gt;上次完整给自己装PC还是2015年年初在老东家实习的时候，送来的快递外包装是富士苹果，开板U套装发现卖家发的CPU盒的贴纸是个R5的，多少有点幽默了【群友提议装个黑苹果更搭&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/box.png&#34; alt=&#34;box&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/r5.png&#34; alt=&#34;r5&#34;&gt;&lt;/p&gt;
+&lt;p&gt;装好cpu以后去拿了个东西，回来发现我家猫在沙发下面盯着我看了一眼然后跳到主板上踩了一脚跑了【还好没坏……装机一定要防猫&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/cat.png&#34; alt=&#34;cat&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/board.png&#34; alt=&#34;board&#34;&gt;&lt;/p&gt;
+&lt;p&gt;一次成功&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/boot.png&#34; alt=&#34;boot&#34;&gt;&lt;/p&gt;
+&lt;p&gt;bios里折腾只调了下负压和EXPO，养老了，感觉良好&lt;/p&gt;
+&lt;h2 id=&#34;负压配置&#34;&gt;&lt;a href=&#34;#负压配置&#34; class=&#34;headerlink&#34; title=&#34;负压配置&#34;&gt;&lt;/a&gt;负压配置&lt;/h2&gt;&lt;p&gt;参考了&lt;a href=&#34;https://www.chiphell.com/thread-2627876-1-3.html&#34;&gt;chiphell大佬的参数&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;可能我这个体质不行，&lt;code&gt;CCD0 -28 CCD1 -38&lt;/code&gt;的时候跑cinebench r23 9分多的时候死机了，保守一点就&lt;code&gt;-26 -36&lt;/code&gt;，可以过测&lt;/p&gt;
+&lt;p&gt;我用的参数是&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;CO:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    CCD0: -26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    CCD1: -36&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;CS:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    High Freq + Mid  Temp: -13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    High Freq + High Temp: -13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    Max  Freq + 全部 Temp: +10 &lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&#34;测试&#34;&gt;&lt;a href=&#34;#测试&#34; class=&#34;headerlink&#34; title=&#34;测试&#34;&gt;&lt;/a&gt;测试&lt;/h2&gt;&lt;h3 id=&#34;CPU-Z&#34;&gt;&lt;a href=&#34;#CPU-Z&#34; class=&#34;headerlink&#34; title=&#34;CPU-Z&#34;&gt;&lt;/a&gt;CPU-Z&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/cpuz.png&#34; alt=&#34;cpuz&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;AIDA64-Cache-Memory&#34;&gt;&lt;a href=&#34;#AIDA64-Cache-Memory&#34; class=&#34;headerlink&#34; title=&#34;AIDA64 Cache &amp;amp; Memory&#34;&gt;&lt;/a&gt;AIDA64 Cache &amp;amp; Memory&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/memory.png&#34; alt=&#34;memory&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;Cinebench-R23&#34;&gt;&lt;a href=&#34;#Cinebench-R23&#34; class=&#34;headerlink&#34; title=&#34;Cinebench R23&#34;&gt;&lt;/a&gt;Cinebench R23&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/r23.png&#34; alt=&#34;r23&#34;&gt;&lt;/p&gt;
+&lt;p&gt;跑R23的时候的频率和温度&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/temp.png&#34; alt=&#34;temp&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/uploads/2024/08/freq.png&#34; alt=&#34;freq&#34;&gt;&lt;/p&gt;
+&lt;p&gt;我手动绑了下单核r23的cpu结果分数还开倒车了，不太理解。。。还试了下这两天说的用管理员账户【虽然我觉得这个能提升不太科学。实际上测下来是没啥提升，感觉可能是跟io操作有关吧。Insider preview就不在host上装了，这主板最智障的一点就是开机自检要好久，insider preview这更新频率还是不上host了&lt;/p&gt;
+&lt;p&gt;风冷，CPU功耗跑满了200W，整机305W，待机45W，还是挺节能的。&lt;/p&gt;
+&lt;h3 id=&#34;IDA分析&#34;&gt;&lt;a href=&#34;#IDA分析&#34; class=&#34;headerlink&#34; title=&#34;IDA分析&#34;&gt;&lt;/a&gt;IDA分析&lt;/h3&gt;&lt;p&gt;分析ntoskrnl 26237最短用时51s，这个还是很牛逼。之前我手上跑的最快的是M1的P核，可以在58s跑完分析，但是毕竟软件优化不完全一样，从这次IDA9的泄露可以看到他们用MacOS在搞开发，应该是有啥奇怪的优化吧。而且毕竟M1的Mac mini才4个P核，我之前还认真的考虑过要不要咸鱼捡Mac mini的垃圾跑IDA分析，现在测完了AMD感觉还是用一个处理器能解决问题才是正道【PC DDR5内存读写速度还是比M1好看很多，而且量大便宜。&lt;/p&gt;
+&lt;p&gt;我手上还有11700F和5900HX，这两个跑的成绩半斤八两，最快89s跑完。单核性能提升不少，降压PBO以后室温26度的情况下32进程分析(跑满了)撞不到温度墙【CCD 0温度最高93.4，28度要跑满就得考虑开空调了，而且其实测下来这玩意比R23还吃CPU性能。毕竟R23渲染完一页还要歇一下，IDA分析实际CPU利用还是挺高的。&lt;/p&gt;
+&lt;h3 id=&#34;fuzz&#34;&gt;&lt;a href=&#34;#fuzz&#34; class=&#34;headerlink&#34; title=&#34;fuzz&#34;&gt;&lt;/a&gt;fuzz&lt;/h3&gt;&lt;p&gt;掏出了之前写的fuzz跑了下，静态插桩的&lt;/p&gt;
+&lt;p&gt;D1581上单核能跑16.2K&amp;#x2F;s【毕竟1.8G主频不能要求太多&lt;/p&gt;
+&lt;p&gt;11700F拉满PL2 以后能跑40.4K&amp;#x2F;s&lt;/p&gt;
+&lt;p&gt;5900HX上跑到42.7K&amp;#x2F;s&lt;/p&gt;
+&lt;p&gt;9950X上最多跑到了69.7K&amp;#x2F;s&lt;/p&gt;
+&lt;p&gt;【不用PT的话还是AMD Yes&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;&lt;a href=&#34;#总结&#34; class=&#34;headerlink&#34; title=&#34;总结&#34;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;AMD Yes，首发JD能不抢就更好了，国外Amazon一直都有货，国内几万个猴抢1000个9950X，这不上科技能抢到都离谱。Windows 11自动更新的驱动有问题，不能睡眠，去AMD官方下个驱动套件就能睡眠了。睡眠唤醒HDMI有bug，不亮，搜了下感觉是老问题了，所以买了根DP线，充值就会变得更强，13块不到的东西我就不折腾了……&lt;/p&gt;
+&lt;p&gt;日常使用方案是不用了直接休眠，有需求网络唤醒，休眠唤醒不用过内存自检，挺快的，冷启动就得1分钟起步了。&lt;/p&gt;
+&lt;p&gt;另外我实际上用了两把工包扇，还有一把是之前CPU散热器多的，11700F用不到两把扇子，根据伯努利原理，工包扇都在前面板往机箱里吹。【一把跑7分钟会撞墙，所以又买了一把&lt;/p&gt;
+&lt;p&gt;不着急的同学可以等到双十一或者618，性价应该会更香。&lt;/p&gt;
+ ]]></description>
+        </item>
         <item>
             <guid isPermalink="true">https://azure.kdays.cn/2023/09/16/HomeLab-upgrade/</guid>
             <title>HomeLab升级笔记</title>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"azure.kdays.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="年更硬件博主今年又上线了。主要是最近几个月有批量用IDA分析东西的需求，原来的11700F只有8C16T，还是差点事，正好苏妈又发了9950X，虽然俗话说amd冲首发是大冤种，JD AMD自营店耍猴，抢购按钮从来都没红过，秒没……JD没货以后，咸鱼上上了一大堆加钱的，还有原地加800的，离谱。chiphell上有人说pdd有散片，价格还行，看了下感觉确实还行，9950x+MSI X670E gam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PC升级笔记">
+<meta property="og:url" content="https://azure.kdays.cn/2024/08/27/AMD9950x/index.html">
+<meta property="og:site_name" content="Azure&#39;s Laboratory">
+<meta property="og:description" content="年更硬件博主今年又上线了。主要是最近几个月有批量用IDA分析东西的需求，原来的11700F只有8C16T，还是差点事，正好苏妈又发了9950X，虽然俗话说amd冲首发是大冤种，JD AMD自营店耍猴，抢购按钮从来都没红过，秒没……JD没货以后，咸鱼上上了一大堆加钱的，还有原地加800的，离谱。chiphell上有人说pdd有散片，价格还行，看了下感觉确实还行，9950x+MSI X670E gam">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/box.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/r5.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/cat.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/board.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/boot.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/cpuz.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/memory.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/r23.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/temp.png">
+<meta property="og:image" content="https://azure.kdays.cn/uploads/2024/08/freq.png">
+<meta property="article:published_time" content="2024-08-27T14:20:00.000Z">
+<meta property="article:modified_time" content="2024-08-27T14:20:00.000Z">
+<meta property="article:author" content="Azure">
+<meta property="article:tag" content="security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://azure.kdays.cn/uploads/2024/08/box.png">
+
+
+<link rel="canonical" href="https://azure.kdays.cn/2024/08/27/AMD9950x/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://azure.kdays.cn/2024/08/27/AMD9950x/","path":"2024/08/27/AMD9950x/","title":"PC升级笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PC升级笔记 | Azure's Laboratory</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Azure's Laboratory</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-alpharomdie"><a href="/onekeyunlock" rel="section"><i class="fa fa-rocket fa-fw"></i>AlphaROMdiE</a></li><li class="menu-item menu-item-rss"><a href="/atom.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%85%E6%9C%BA"><span class="nav-number">2.</span> <span class="nav-text">装机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9F%E5%8E%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">负压配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU-Z"><span class="nav-number">4.1.</span> <span class="nav-text">CPU-Z</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDA64-Cache-Memory"><span class="nav-number">4.2.</span> <span class="nav-text">AIDA64 Cache &amp; Memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cinebench-R23"><span class="nav-number">4.3.</span> <span class="nav-text">Cinebench R23</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IDA%E5%88%86%E6%9E%90"><span class="nav-number">4.4.</span> <span class="nav-text">IDA分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fuzz"><span class="nav-number">4.5.</span> <span class="nav-text">fuzz</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Azure"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Azure</p>
+  <div class="site-description" itemprop="description">次元の壁乗り越えてあなたに会ってみたい</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/azure9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;azure9" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/4zure9" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;4zure9" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+<div>
+</p></p><img src="https://s07.flagcounter.com/count/9qfl/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_12/viewers_0/labels_0/pageviews_0/flags_0/" alt="Flag Counter" border="0">
+</div>
+
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://azure.kdays.cn/2024/08/27/AMD9950x/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Azure">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Azure's Laboratory">
+      <meta itemprop="description" content="次元の壁乗り越えてあなたに会ってみたい">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PC升级笔记 | Azure's Laboratory">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PC升级笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-27 22:20:00" itemprop="dateCreated datePublished" datetime="2024-08-27T22:20:00+08:00">2024-08-27</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2024/08/27/AMD9950x/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/08/27/AMD9950x/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>年更硬件博主今年又上线了。<br>主要是最近几个月有批量用IDA分析东西的需求，原来的11700F只有8C16T，还是差点事，正好苏妈又发了9950X，虽然俗话说amd冲首发是大冤种，JD AMD自营店耍猴，抢购按钮从来都没红过，秒没……<br>JD没货以后，咸鱼上上了一大堆加钱的，还有原地加800的，离谱。<br>chiphell上有人说pdd有散片，价格还行，看了下感觉确实还行，9950x+MSI X670E gaming plus wifi套装只要6249，犹豫了一天还是下单了，主要是天天盯着也难受，不如多花钱先享受一下。<br>今年主要突出一个性能与能耗比，价格嘛，我下了单还没发货就原地涨了480，到货那天那家店+1100，现在降到+750，这溢价，啧啧啧</p>
+<span id="more"></span>
+<h2 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h2><p>由于手里没有DDR5，所以干脆全换新了，硬盘用的之前的980Pro 2T，一共花了8909，希望这个PC能用个10年。</p>
+<p>本次花销清单如下</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>数量</th>
+<th>单价(RMB)</th>
+<th>购买日期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9950x+MSI X670E gaming plus wifi</td>
+<td>1</td>
+<td>6247</td>
+<td>2024&#x2F;8&#x2F;16</td>
+</tr>
+<tr>
+<td>威刚D500 64G(32x2) EXPO 6000MHz</td>
+<td>1</td>
+<td>1551.21</td>
+<td>2024&#x2F;8&#x2F;14</td>
+</tr>
+<tr>
+<td>金河田 白金A+850W ATX3.1</td>
+<td>1</td>
+<td>546.26</td>
+<td>2024&#x2F;8&#x2F;19</td>
+</tr>
+<tr>
+<td>九州风神CH560R</td>
+<td>1</td>
+<td>329</td>
+<td>2024&#x2F;7&#x2F;27</td>
+</tr>
+<tr>
+<td>利民PA140</td>
+<td>1</td>
+<td>207.96</td>
+<td>2024&#x2F;7&#x2F;23</td>
+</tr>
+<tr>
+<td>利民TL-C12C</td>
+<td>1</td>
+<td>14.69</td>
+<td>2024&#x2F;8&#x2F;25</td>
+</tr>
+<tr>
+<td>毕亚兹DP线</td>
+<td>1</td>
+<td>12.94</td>
+<td>2024&#x2F;8&#x2F;26</td>
+</tr>
+</tbody></table>
+<h2 id="装机"><a href="#装机" class="headerlink" title="装机"></a>装机</h2><p>上次完整给自己装PC还是2015年年初在老东家实习的时候，送来的快递外包装是富士苹果，开板U套装发现卖家发的CPU盒的贴纸是个R5的，多少有点幽默了【群友提议装个黑苹果更搭</p>
+<p><img src="/uploads/2024/08/box.png" alt="box"></p>
+<p><img src="/uploads/2024/08/r5.png" alt="r5"></p>
+<p>装好cpu以后去拿了个东西，回来发现我家猫在沙发下面盯着我看了一眼然后跳到主板上踩了一脚跑了【还好没坏……装机一定要防猫</p>
+<p><img src="/uploads/2024/08/cat.png" alt="cat"></p>
+<p><img src="/uploads/2024/08/board.png" alt="board"></p>
+<p>一次成功</p>
+<p><img src="/uploads/2024/08/boot.png" alt="boot"></p>
+<p>bios里折腾只调了下负压和EXPO，养老了，感觉良好</p>
+<h2 id="负压配置"><a href="#负压配置" class="headerlink" title="负压配置"></a>负压配置</h2><p>参考了<a target="_blank" rel="noopener" href="https://www.chiphell.com/thread-2627876-1-3.html">chiphell大佬的参数</a></p>
+<p>可能我这个体质不行，<code>CCD0 -28 CCD1 -38</code>的时候跑cinebench r23 9分多的时候死机了，保守一点就<code>-26 -36</code>，可以过测</p>
+<p>我用的参数是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CO:</span><br><span class="line">    CCD0: -26</span><br><span class="line">    CCD1: -36</span><br><span class="line">CS:</span><br><span class="line">    High Freq + Mid  Temp: -13</span><br><span class="line">    High Freq + High Temp: -13</span><br><span class="line">    Max  Freq + 全部 Temp: +10 </span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="CPU-Z"><a href="#CPU-Z" class="headerlink" title="CPU-Z"></a>CPU-Z</h3><p><img src="/uploads/2024/08/cpuz.png" alt="cpuz"></p>
+<h3 id="AIDA64-Cache-Memory"><a href="#AIDA64-Cache-Memory" class="headerlink" title="AIDA64 Cache &amp; Memory"></a>AIDA64 Cache &amp; Memory</h3><p><img src="/uploads/2024/08/memory.png" alt="memory"></p>
+<h3 id="Cinebench-R23"><a href="#Cinebench-R23" class="headerlink" title="Cinebench R23"></a>Cinebench R23</h3><p><img src="/uploads/2024/08/r23.png" alt="r23"></p>
+<p>跑R23的时候的频率和温度</p>
+<p><img src="/uploads/2024/08/temp.png" alt="temp"></p>
+<p><img src="/uploads/2024/08/freq.png" alt="freq"></p>
+<p>我手动绑了下单核r23的cpu结果分数还开倒车了，不太理解。。。还试了下这两天说的用管理员账户【虽然我觉得这个能提升不太科学。实际上测下来是没啥提升，感觉可能是跟io操作有关吧。Insider preview就不在host上装了，这主板最智障的一点就是开机自检要好久，insider preview这更新频率还是不上host了</p>
+<p>风冷，CPU功耗跑满了200W，整机305W，待机45W，还是挺节能的。</p>
+<h3 id="IDA分析"><a href="#IDA分析" class="headerlink" title="IDA分析"></a>IDA分析</h3><p>分析ntoskrnl 26237最短用时51s，这个还是很牛逼。之前我手上跑的最快的是M1的P核，可以在58s跑完分析，但是毕竟软件优化不完全一样，从这次IDA9的泄露可以看到他们用MacOS在搞开发，应该是有啥奇怪的优化吧。而且毕竟M1的Mac mini才4个P核，我之前还认真的考虑过要不要咸鱼捡Mac mini的垃圾跑IDA分析，现在测完了AMD感觉还是用一个处理器能解决问题才是正道【PC DDR5内存读写速度还是比M1好看很多，而且量大便宜。</p>
+<p>我手上还有11700F和5900HX，这两个跑的成绩半斤八两，最快89s跑完。单核性能提升不少，降压PBO以后室温26度的情况下32进程分析(跑满了)撞不到温度墙【CCD 0温度最高93.4，28度要跑满就得考虑开空调了，而且其实测下来这玩意比R23还吃CPU性能。毕竟R23渲染完一页还要歇一下，IDA分析实际CPU利用还是挺高的。</p>
+<h3 id="fuzz"><a href="#fuzz" class="headerlink" title="fuzz"></a>fuzz</h3><p>掏出了之前写的fuzz跑了下，静态插桩的</p>
+<p>D1581上单核能跑16.2K&#x2F;s【毕竟1.8G主频不能要求太多</p>
+<p>11700F拉满PL2 以后能跑40.4K&#x2F;s</p>
+<p>5900HX上跑到42.7K&#x2F;s</p>
+<p>9950X上最多跑到了69.7K&#x2F;s</p>
+<p>【不用PT的话还是AMD Yes</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>AMD Yes，首发JD能不抢就更好了，国外Amazon一直都有货，国内几万个猴抢1000个9950X，这不上科技能抢到都离谱。Windows 11自动更新的驱动有问题，不能睡眠，去AMD官方下个驱动套件就能睡眠了。睡眠唤醒HDMI有bug，不亮，搜了下感觉是老问题了，所以买了根DP线，充值就会变得更强，13块不到的东西我就不折腾了……</p>
+<p>日常使用方案是不用了直接休眠，有需求网络唤醒，休眠唤醒不用过内存自检，挺快的，冷启动就得1分钟起步了。</p>
+<p>另外我实际上用了两把工包扇，还有一把是之前CPU散热器多的，11700F用不到两把扇子，根据伯努利原理，工包扇都在前面板往机箱里吹。【一把跑7分钟会撞墙，所以又买了一把</p>
+<p>不着急的同学可以等到双十一或者618，性价应该会更香。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/4zure9">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/09/16/HomeLab-upgrade/" rel="prev" title="HomeLab升级笔记">
+                  <i class="fa fa-angle-left"></i> HomeLab升级笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Azure</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"azurea","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
