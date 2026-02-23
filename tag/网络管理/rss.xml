@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Azure&#39;s Laboratory • Posts by &#34;网络管理&#34; tag</title>
+        <link>https://azure.kdays.cn</link>
+        <description>次元の壁乗り越えてあなたに会ってみたい</description>
+        <language>zh-CN</language>
+        <pubDate>Mon, 23 Feb 2026 15:52:40 +0800</pubDate>
+        <lastBuildDate>Mon, 23 Feb 2026 15:52:40 +0800</lastBuildDate>
+        <category>ctf</category>
+        <category>网络管理</category>
+        <item>
+            <guid isPermalink="true">https://azure.kdays.cn/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/</guid>
+            <title>QWRT tailscale subnet路由填坑笔记</title>
+            <link>https://azure.kdays.cn/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/</link>
+            <category>网络管理</category>
+            <pubDate>Mon, 23 Feb 2026 15:52:40 +0800</pubDate>
+            <description><![CDATA[ &lt;p&gt;被tailscale subnet路由性能卡的要死的情况折腾了大半年，实在忍不了了而且春节也是闲的没事就尝试解决一下。&lt;/p&gt;
+&lt;p&gt;首先这感觉就是被运营商QoS到死，又因为自有国情在此，这两年运营商大搞网间限速，我甚至到昨天晚上找到rootcause是subnet路由之前都以为是运营商QoS限速导致的。而且这感觉上也是，我连另一个子网的路由，卡的连个html都要加载好几分钟。以至于在我心里运营商背了大半年的黑锅。最后发现其实是因为去年9月份从asuswrt的大螃蟹换到了qwrt的地表最有性价比的小米BE10000以后没仔细调过tailscale的转发，只是本着能跑就行的态度，给自己挖了个大坑。&lt;/p&gt;
+&lt;p&gt;直到最近tailscale实现了peer relay，我在测试的时候发现，强行relay到peer也卡，但是我pc上开就不卡，一过本地qwrt路由就完蛋。跟AI聊了一下AI一开始也猜是因为不同ipv6 地址策略不一样。结果一步一步排错下来，AI给了个意见说让perf测一下，我觉得有道理，结果一测，草，问题一目了然了。&lt;/p&gt;
+&lt;p&gt;太久没配网连这最基本的怎么排查问题的测试都忘了做了，实在是草&lt;/p&gt;
+&lt;p&gt;node A(perf服务端) node B(QWRT + tailscale) node C(PC没跑tailscale)&lt;/p&gt;
+&lt;p&gt;在C上跑rperf3-windows-x86_64.exe client 100.x.x.x –reverse -u&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;[  5] local 192.168.x.2 port 60660 connected to 100.x.x.x port 5201&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;[ ID] Interval           Transfer        Bitrate            Total Datagrams&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;[  5]   0.00-1.00  sec    1.14  MBytes     9.1  Mbits/sec     760&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;[  5]   1.00-2.00  sec  573.00  KBytes     4.6  Mbits/sec     382&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;速度就很正常，但是切到TCP就惨不忍睹了&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;perf3-windows-x86_64.exe client 100.x.x.x --reverse&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Connecting to host 100.x.x.x, port 5201&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;[  5] local 192.168.x.2 port 11215 connected to 100.x.x.x port 5201&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;[ ID] Interval           Transfer        Bitrate            Retr&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;[  5]   0.00-1.01  sec   28.52  KBytes     0.2  Mbits/sec&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;[  5]   1.01-2.02  sec   19.84  KBytes     0.2  Mbits/sec&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;[  5]   2.02-3.03  sec   19.84  KBytes     0.2  Mbits/sec&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;但是如果在node B上面跑tcp和udp测试就都正常。&lt;br&gt;好了 rootcause缩小到TCP子网转发问题。&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;p&gt;前方AI生成预警，懒得写了，主要是留个笔记，别人踩坑的时候可以参考一下。&lt;/p&gt;
+&lt;h2 id=&#34;排错&#34;&gt;&lt;a href=&#34;#排错&#34; class=&#34;headerlink&#34; title=&#34;排错&#34;&gt;&lt;/a&gt;排错&lt;/h2&gt;&lt;p&gt;问题精确到：路由器上 &lt;code&gt;tailscale0&lt;/code&gt; → FORWARD → &lt;code&gt;br-lan&lt;/code&gt; 路径，仅影响TCP，不影响UDP。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;测试路径&lt;/th&gt;
+&lt;th&gt;方向&lt;/th&gt;
+&lt;th&gt;协议&lt;/th&gt;
+&lt;th&gt;速度&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;路由器(100.x) → 目标&lt;/td&gt;
+&lt;td&gt;upload&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;60.8 Mbps ✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;目标 → 路由器(100.x)&lt;/td&gt;
+&lt;td&gt;download&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;20.9 Mbps ✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;子网设备(192.168.x.2) → 目标&lt;/td&gt;
+&lt;td&gt;upload&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;54.8 Mbps ✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;目标 → 子网设备(192.168.x.2)&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;download&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;TCP&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;0.2 Mbps&lt;/strong&gt; ❌&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;目标 → 子网设备(192.168.x.2)&lt;/td&gt;
+&lt;td&gt;download&lt;/td&gt;
+&lt;td&gt;UDP&lt;/td&gt;
+&lt;td&gt;正常 ✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;路由器自己收TCP没问题，子网设备发TCP也没问题，唯独子网设备收TCP就完蛋。UDP完全正常。这说明转发路径本身没有带宽瓶颈，问题出在某个TCP特有的处理环节。&lt;/p&gt;
+&lt;h3 id=&#34;走过的弯路&#34;&gt;&lt;a href=&#34;#走过的弯路&#34; class=&#34;headerlink&#34; title=&#34;走过的弯路&#34;&gt;&lt;/a&gt;走过的弯路&lt;/h3&gt;&lt;p&gt;排错过程中试了一大堆东西，全部无效，列一下给后来人避坑：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;ISP QoS限速&lt;/strong&gt; — 路由器自身下载20.9 Mbps，不是运营商的锅（运营商：？？？背了大半年黑锅）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IPv6地址选择&lt;/strong&gt; — 试了&lt;code&gt;preferred_lft 0&lt;/code&gt;弃用br-lan地址，Tailscale不吃这套&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MTU&amp;#x2F;PMTUD&lt;/strong&gt; — tailscale0 MTU 1280，客户端降到1280也没用，fw3已经配好了MSS钳制&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;强制DERP中继&lt;/strong&gt; — &lt;code&gt;TS_DEBUG_DISABLE_DIRECT=true&lt;/code&gt;，走中继也一样卡&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;conntrack&lt;/strong&gt; — &lt;code&gt;tcp_be_liberal=1&lt;/code&gt;已经设了，&lt;code&gt;nf_conntrack_checksum=0&lt;/code&gt;也关了，conntrack表也没满&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Qualcomm ECM硬件加速&lt;/strong&gt; — &lt;code&gt;rmmod ecm&lt;/code&gt;卸了也没用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;关闭MASQUERADE&lt;/strong&gt; — 这个最离谱，关了masq以后TCP&amp;#x2F;UDP直接完全不通了。Tailscale的packet filter会在SNAT之前检查源IP，192.168.x.x不是Tailscale地址直接给你丢了。所以masq是必须的，没得选&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;关闭tailscale0的GRO&amp;#x2F;GSO&amp;#x2F;TSO&lt;/strong&gt; — &lt;code&gt;ethtool -K tailscale0 gso off gro off tso off&lt;/code&gt;，没用，内核转发路径内部还是会做GSO聚合&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;iptables NOTRACK&lt;/strong&gt; — QWRT的iptables v1.8.3 legacy版连NOTRACK target都没有，&lt;code&gt;CT --notrack&lt;/code&gt;直接把连接搞断了&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;基本上能想到的都试了个遍，每次都满怀希望然后失望。&lt;/p&gt;
+&lt;h3 id=&#34;关键突破：br-lan抓包&#34;&gt;&lt;a href=&#34;#关键突破：br-lan抓包&#34; class=&#34;headerlink&#34; title=&#34;关键突破：br-lan抓包&#34;&gt;&lt;/a&gt;关键突破：br-lan抓包&lt;/h3&gt;&lt;p&gt;最后在br-lan上抓包的时候发现了端倪：&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;# 2480字节的段 → 客户端没收到&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15:33:33.76921 seq 112:2592   length 2480  ← 丢了&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15:33:33.770045 seq 2592:5072  length 2480  ← 丢了&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15:33:33.770122 seq 5072:7552  length 2480  ← 丢了&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15:33:33.770192 seq 7552:10032 length 2480  ← 丢了&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;# 1240字节的段 → 客户端正常收到&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15:33:33.793373 seq 14992:16232 length 1240  ← 收到了!&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;# 客户端SACK：我只收到了14992:16232这一个段，前面的全没收到&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15:33:33.793511 ack 112, sack &amp;#123;14992:16232&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;# 重传变成1240字节 → 收到了&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15:33:33.800682 seq 112:1352   length 1240  ← 收到了!&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;看到这个抓包结果的时候人都傻了。2480字节的段全丢，1240字节的段全收到。2480 &amp;#x3D; 2 × 1240，正好是两个MSS。重传的时候TCP会退回到单MSS发送，所以重传包是1240字节，就能收到。&lt;/p&gt;
+&lt;p&gt;这就是为什么速度只有0.2 Mbps——只有重传包能到达客户端，正常发送的数据全被丢了。&lt;/p&gt;
+&lt;h2 id=&#34;Root-Cause&#34;&gt;&lt;a href=&#34;#Root-Cause&#34; class=&#34;headerlink&#34; title=&#34;Root Cause&#34;&gt;&lt;/a&gt;Root Cause&lt;/h2&gt;&lt;p&gt;tailscale0的MTU是1280，减去IP+TCP头40字节，MSS是1240。数据从tailscale0进来的时候是一个个1240字节的TCP段，但是内核的转发路径会通过GSO（Generic Segmentation Offload）把多个段聚合成一个大段来提高效率。两个1240聚合成2480，加上40字节头就是2520字节的IP包。&lt;/p&gt;
+&lt;p&gt;问题来了：br-lan的MTU是1500。2520 &amp;gt; 1500。&lt;/p&gt;
+&lt;p&gt;正常情况下内核应该在发送前把这个GSO大段重新切分成小段，但是br-lan是个软件桥接口，它底下的物理端口&lt;strong&gt;没有正确执行这个分段&lt;/strong&gt;。结果就是2520字节的超大以太网帧直接被扔到了线路上，客户端网卡一看这帧超过MTU了，静默丢弃，连个错误都不报。&lt;/p&gt;
+&lt;p&gt;为什么只影响TCP下行转发？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;TCP download&lt;/strong&gt;：GSO聚合TCP段为超大帧 → 客户端丢弃 ❌&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;UDP download&lt;/strong&gt;：UDP包不会被GSO聚合，每个包独立且≤MTU ✅&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TCP upload&lt;/strong&gt;：客户端发送的段本来就是正确大小，不需要分段 ✅&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TCP直连路由器&lt;/strong&gt;：走INPUT路径，本地协议栈内部处理GSO，不经过物理线路 ✅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;完美解释了所有现象。&lt;/p&gt;
+&lt;h2 id=&#34;修复&#34;&gt;&lt;a href=&#34;#修复&#34; class=&#34;headerlink&#34; title=&#34;修复&#34;&gt;&lt;/a&gt;修复&lt;/h2&gt;&lt;p&gt;一行命令：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;for&lt;/span&gt; iface &lt;span class=&#34;keyword&#34;&gt;in&lt;/span&gt; br-lan $(&lt;span class=&#34;built_in&#34;&gt;ls&lt;/span&gt; /sys/class/net/br-lan/brif/ 2&amp;gt;/dev/null); &lt;span class=&#34;keyword&#34;&gt;do&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    ethtool -K &lt;span class=&#34;string&#34;&gt;&amp;quot;&lt;span class=&#34;variable&#34;&gt;$iface&lt;/span&gt;&amp;quot;&lt;/span&gt; gso off tso off gro off 2&amp;gt;/dev/null&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;done&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;关闭br-lan及其底层物理端口的GSO&amp;#x2F;TSO&amp;#x2F;GRO，强制内核在发送前完成软件分段。&lt;/p&gt;
+&lt;p&gt;持久化写到&lt;code&gt;/etc/rc.local&lt;/code&gt;的&lt;code&gt;exit 0&lt;/code&gt;之前就行：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;# Fix: 关闭br-lan GSO/TSO 防止Tailscale转发路径产生超大TCP帧&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;for&lt;/span&gt; iface &lt;span class=&#34;keyword&#34;&gt;in&lt;/span&gt; br-lan $(&lt;span class=&#34;built_in&#34;&gt;ls&lt;/span&gt; /sys/class/net/br-lan/brif/ 2&amp;gt;/dev/null); &lt;span class=&#34;keyword&#34;&gt;do&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    ethtool -K &lt;span class=&#34;string&#34;&gt;&amp;quot;&lt;span class=&#34;variable&#34;&gt;$iface&lt;/span&gt;&amp;quot;&lt;/span&gt; gso off tso off gro off 2&amp;gt;/dev/null&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;done&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;关闭GSO&amp;#x2F;TSO对路由器性能基本没影响。br-lan本身就是软件桥接，没有硬件TSO。关了以后只是把分段时机提前到内核协议栈内，CPU开销可以忽略。如果开了硬件flow offloading，大部分WAN↔LAN流量直接绕过内核协议栈，更不受影响。&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;&lt;a href=&#34;#总结&#34; class=&#34;headerlink&#34; title=&#34;总结&#34;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;折腾了大半年的tailscale subnet路由TCP龟速问题，根因居然是br-lan的GSO没有正确分段，导致超大TCP帧被客户端静默丢弃。UDP不受影响是因为UDP包不会被GSO聚合。上行不受影响是因为客户端发出的包本来就是正确大小。路由器自身不受影响是因为本地协议栈不走物理线路。&lt;/p&gt;
+&lt;p&gt;这个问题的坑在于：tcpdump在br-lan上能抓到这些2480字节的包（因为tcpdump在GSO分段之前捕获），所以看起来包是发出去了，但实际上到了线路上就是超大帧，客户端直接丢了。如果不仔细对比包大小和客户端的SACK响应，根本发现不了。&lt;/p&gt;
+&lt;p&gt;教训：换路由器以后一定要跑一遍完整的网络测试，不要本着”能跑就行”的态度。还有就是iperf3真的是排查网络问题的神器，早该跑的。&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

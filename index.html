@@ -125,13 +125,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -160,6 +160,105 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://azure.kdays.cn/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Azure">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Azure's Laboratory">
+      <meta itemprop="description" content="次元の壁乗り越えてあなたに会ってみたい">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Azure's Laboratory">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">QWRT tailscale subnet路由填坑笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-02-23 15:52:40" itemprop="dateCreated datePublished" datetime="2026-02-23T15:52:40+08:00">2026-02-23</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/02/23/QWRT-tailscale-subnet路由填坑笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>被tailscale subnet路由性能卡的要死的情况折腾了大半年，实在忍不了了而且春节也是闲的没事就尝试解决一下。</p>
+<p>首先这感觉就是被运营商QoS到死，又因为自有国情在此，这两年运营商大搞网间限速，我甚至到昨天晚上找到rootcause是subnet路由之前都以为是运营商QoS限速导致的。而且这感觉上也是，我连另一个子网的路由，卡的连个html都要加载好几分钟。以至于在我心里运营商背了大半年的黑锅。最后发现其实是因为去年9月份从asuswrt的大螃蟹换到了qwrt的地表最有性价比的小米BE10000以后没仔细调过tailscale的转发，只是本着能跑就行的态度，给自己挖了个大坑。</p>
+<p>直到最近tailscale实现了peer relay，我在测试的时候发现，强行relay到peer也卡，但是我pc上开就不卡，一过本地qwrt路由就完蛋。跟AI聊了一下AI一开始也猜是因为不同ipv6 地址策略不一样。结果一步一步排错下来，AI给了个意见说让perf测一下，我觉得有道理，结果一测，草，问题一目了然了。</p>
+<p>太久没配网连这最基本的怎么排查问题的测试都忘了做了，实在是草</p>
+<p>node A(perf服务端) node B(QWRT + tailscale) node C(PC没跑tailscale)</p>
+<p>在C上跑rperf3-windows-x86_64.exe client 100.x.x.x –reverse -u</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[  5] local 192.168.x.2 port 60660 connected to 100.x.x.x port 5201</span><br><span class="line">[ ID] Interval           Transfer        Bitrate            Total Datagrams</span><br><span class="line">[  5]   0.00-1.00  sec    1.14  MBytes     9.1  Mbits/sec     760</span><br><span class="line">[  5]   1.00-2.00  sec  573.00  KBytes     4.6  Mbits/sec     382</span><br></pre></td></tr></table></figure>
+<p>速度就很正常，但是切到TCP就惨不忍睹了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">perf3-windows-x86_64.exe client 100.x.x.x --reverse</span><br><span class="line">Connecting to host 100.x.x.x, port 5201</span><br><span class="line">[  5] local 192.168.x.2 port 11215 connected to 100.x.x.x port 5201</span><br><span class="line">[ ID] Interval           Transfer        Bitrate            Retr</span><br><span class="line">[  5]   0.00-1.01  sec   28.52  KBytes     0.2  Mbits/sec</span><br><span class="line">[  5]   1.01-2.02  sec   19.84  KBytes     0.2  Mbits/sec</span><br><span class="line">[  5]   2.02-3.03  sec   19.84  KBytes     0.2  Mbits/sec</span><br></pre></td></tr></table></figure>
+<p>但是如果在node B上面跑tcp和udp测试就都正常。<br>好了 rootcause缩小到TCP子网转发问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -965,98 +1064,9 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://azure.kdays.cn/2014/02/03/HarmoFavo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Azure">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Azure's Laboratory">
-      <meta itemprop="description" content="次元の壁乗り越えてあなたに会ってみたい">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Azure's Laboratory">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2014/02/03/HarmoFavo/" class="post-title-link" itemprop="url">Favorite社通用和谐插件 v0.2【游戏全年龄化</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2014-02-03 01:43:57" itemprop="dateCreated datePublished" datetime="2014-02-03T01:43:57+08:00">2014-02-03</time>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2014/02/03/HarmoFavo/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/02/03/HarmoFavo/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>插件下载：<br><a href="/uploads/2014/02/HarmoFavo2.7z">HarmoFavo</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">v0.2[2014.2.19]</span><br><span class="line">[+]全自动配置</span><br><span class="line">v0.11[2014.2.19]</span><br><span class="line">[+]支持Wiz Anniversary、funta支持不能……那玩意章节表比较奇葩、</span><br><span class="line">[+]CG Patch</span><br><span class="line">v0.1 [2014.2.3]</span><br><span class="line">第一个版本</span><br></pre></td></tr></table></figure>
-<p>本插件理论上支持所有使用Favorite社游戏引擎的游戏、并且目前已有的3个汉化版全部支持、现在已经支持全自动和谐……您只需要将本插件释放到游戏目录并用AlphaROMdiE装载游戏即可。<br>使用方法：【请在使用前认真阅读！<br>首先确保您的游戏目录是这样的、HarmoFavo下载下去以后直接释放到游戏目录即可<br><img src="/uploads/2014/02/20140202213303.png"><br>上个图证明可以支持光鸟鸟、色鸟鸟也可以支持、方法看评论一楼的回复<br>和谐后的光鸟鸟、其他的图就不上了……那个加奈和澪的3P因为是男猪开脑洞梦到的……所以那个没辙╮(￣▽￣”)╭ 顾及18R的小盆友要玩的时候要小心这个坑。<br><img src="/uploads/2014/02/image1.png"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2014/02/03/HarmoFavo/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
 
 </div>
   </main>
@@ -1066,7 +1076,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2026</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>

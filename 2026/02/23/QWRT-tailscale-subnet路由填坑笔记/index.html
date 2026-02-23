@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"azure.kdays.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="被tailscale subnet路由性能卡的要死的情况折腾了大半年，实在忍不了了而且春节也是闲的没事就尝试解决一下。 首先这感觉就是被运营商QoS到死，又因为自有国情在此，这两年运营商大搞网间限速，我甚至到昨天晚上找到rootcause是subnet路由之前都以为是运营商QoS限速导致的。而且这感觉上也是，我连另一个子网的路由，卡的连个html都要加载好几分钟。以至于在我心里运营商背了大半年的黑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QWRT tailscale subnet路由填坑笔记">
+<meta property="og:url" content="https://azure.kdays.cn/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Azure&#39;s Laboratory">
+<meta property="og:description" content="被tailscale subnet路由性能卡的要死的情况折腾了大半年，实在忍不了了而且春节也是闲的没事就尝试解决一下。 首先这感觉就是被运营商QoS到死，又因为自有国情在此，这两年运营商大搞网间限速，我甚至到昨天晚上找到rootcause是subnet路由之前都以为是运营商QoS限速导致的。而且这感觉上也是，我连另一个子网的路由，卡的连个html都要加载好几分钟。以至于在我心里运营商背了大半年的黑">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-23T07:52:40.000Z">
+<meta property="article:modified_time" content="2026-02-23T07:52:40.000Z">
+<meta property="article:author" content="Azure">
+<meta property="article:tag" content="网络管理">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://azure.kdays.cn/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://azure.kdays.cn/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/","path":"2026/02/23/QWRT-tailscale-subnet路由填坑笔记/","title":"QWRT tailscale subnet路由填坑笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>QWRT tailscale subnet路由填坑笔记 | Azure's Laboratory</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Azure's Laboratory</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-alpharomdie"><a href="/onekeyunlock" rel="section"><i class="fa fa-rocket fa-fw"></i>AlphaROMdiE</a></li><li class="menu-item menu-item-rss"><a href="/atom.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E9%94%99"><span class="nav-number">1.</span> <span class="nav-text">排错</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%B0%E8%BF%87%E7%9A%84%E5%BC%AF%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">走过的弯路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%AA%81%E7%A0%B4%EF%BC%9Abr-lan%E6%8A%93%E5%8C%85"><span class="nav-number">1.2.</span> <span class="nav-text">关键突破：br-lan抓包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Root-Cause"><span class="nav-number">2.</span> <span class="nav-text">Root Cause</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8D"><span class="nav-number">3.</span> <span class="nav-text">修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Azure"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Azure</p>
+  <div class="site-description" itemprop="description">次元の壁乗り越えてあなたに会ってみたい</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/azure9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;azure9" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/4zure9" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;4zure9" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+<div>
+</p></p><img src="https://s07.flagcounter.com/count/9qfl/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_12/viewers_0/labels_0/pageviews_0/flags_0/" alt="Flag Counter" border="0">
+</div>
+
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://azure.kdays.cn/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Azure">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Azure's Laboratory">
+      <meta itemprop="description" content="次元の壁乗り越えてあなたに会ってみたい">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="QWRT tailscale subnet路由填坑笔记 | Azure's Laboratory">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          QWRT tailscale subnet路由填坑笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-02-23 15:52:40" itemprop="dateCreated datePublished" datetime="2026-02-23T15:52:40+08:00">2026-02-23</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2026/02/23/QWRT-tailscale-subnet%E8%B7%AF%E7%94%B1%E5%A1%AB%E5%9D%91%E7%AC%94%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/02/23/QWRT-tailscale-subnet路由填坑笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>被tailscale subnet路由性能卡的要死的情况折腾了大半年，实在忍不了了而且春节也是闲的没事就尝试解决一下。</p>
+<p>首先这感觉就是被运营商QoS到死，又因为自有国情在此，这两年运营商大搞网间限速，我甚至到昨天晚上找到rootcause是subnet路由之前都以为是运营商QoS限速导致的。而且这感觉上也是，我连另一个子网的路由，卡的连个html都要加载好几分钟。以至于在我心里运营商背了大半年的黑锅。最后发现其实是因为去年9月份从asuswrt的大螃蟹换到了qwrt的地表最有性价比的小米BE10000以后没仔细调过tailscale的转发，只是本着能跑就行的态度，给自己挖了个大坑。</p>
+<p>直到最近tailscale实现了peer relay，我在测试的时候发现，强行relay到peer也卡，但是我pc上开就不卡，一过本地qwrt路由就完蛋。跟AI聊了一下AI一开始也猜是因为不同ipv6 地址策略不一样。结果一步一步排错下来，AI给了个意见说让perf测一下，我觉得有道理，结果一测，草，问题一目了然了。</p>
+<p>太久没配网连这最基本的怎么排查问题的测试都忘了做了，实在是草</p>
+<p>node A(perf服务端) node B(QWRT + tailscale) node C(PC没跑tailscale)</p>
+<p>在C上跑rperf3-windows-x86_64.exe client 100.x.x.x –reverse -u</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[  5] local 192.168.x.2 port 60660 connected to 100.x.x.x port 5201</span><br><span class="line">[ ID] Interval           Transfer        Bitrate            Total Datagrams</span><br><span class="line">[  5]   0.00-1.00  sec    1.14  MBytes     9.1  Mbits/sec     760</span><br><span class="line">[  5]   1.00-2.00  sec  573.00  KBytes     4.6  Mbits/sec     382</span><br></pre></td></tr></table></figure>
+<p>速度就很正常，但是切到TCP就惨不忍睹了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">perf3-windows-x86_64.exe client 100.x.x.x --reverse</span><br><span class="line">Connecting to host 100.x.x.x, port 5201</span><br><span class="line">[  5] local 192.168.x.2 port 11215 connected to 100.x.x.x port 5201</span><br><span class="line">[ ID] Interval           Transfer        Bitrate            Retr</span><br><span class="line">[  5]   0.00-1.01  sec   28.52  KBytes     0.2  Mbits/sec</span><br><span class="line">[  5]   1.01-2.02  sec   19.84  KBytes     0.2  Mbits/sec</span><br><span class="line">[  5]   2.02-3.03  sec   19.84  KBytes     0.2  Mbits/sec</span><br></pre></td></tr></table></figure>
+<p>但是如果在node B上面跑tcp和udp测试就都正常。<br>好了 rootcause缩小到TCP子网转发问题。</p>
+<span id="more"></span>
+
+<p>前方AI生成预警，懒得写了，主要是留个笔记，别人踩坑的时候可以参考一下。</p>
+<h2 id="排错"><a href="#排错" class="headerlink" title="排错"></a>排错</h2><p>问题精确到：路由器上 <code>tailscale0</code> → FORWARD → <code>br-lan</code> 路径，仅影响TCP，不影响UDP。</p>
+<table>
+<thead>
+<tr>
+<th>测试路径</th>
+<th>方向</th>
+<th>协议</th>
+<th>速度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>路由器(100.x) → 目标</td>
+<td>upload</td>
+<td>TCP</td>
+<td>60.8 Mbps ✅</td>
+</tr>
+<tr>
+<td>目标 → 路由器(100.x)</td>
+<td>download</td>
+<td>TCP</td>
+<td>20.9 Mbps ✅</td>
+</tr>
+<tr>
+<td>子网设备(192.168.x.2) → 目标</td>
+<td>upload</td>
+<td>TCP</td>
+<td>54.8 Mbps ✅</td>
+</tr>
+<tr>
+<td><strong>目标 → 子网设备(192.168.x.2)</strong></td>
+<td><strong>download</strong></td>
+<td><strong>TCP</strong></td>
+<td><strong>0.2 Mbps</strong> ❌</td>
+</tr>
+<tr>
+<td>目标 → 子网设备(192.168.x.2)</td>
+<td>download</td>
+<td>UDP</td>
+<td>正常 ✅</td>
+</tr>
+</tbody></table>
+<p>路由器自己收TCP没问题，子网设备发TCP也没问题，唯独子网设备收TCP就完蛋。UDP完全正常。这说明转发路径本身没有带宽瓶颈，问题出在某个TCP特有的处理环节。</p>
+<h3 id="走过的弯路"><a href="#走过的弯路" class="headerlink" title="走过的弯路"></a>走过的弯路</h3><p>排错过程中试了一大堆东西，全部无效，列一下给后来人避坑：</p>
+<ol>
+<li><strong>ISP QoS限速</strong> — 路由器自身下载20.9 Mbps，不是运营商的锅（运营商：？？？背了大半年黑锅）</li>
+<li><strong>IPv6地址选择</strong> — 试了<code>preferred_lft 0</code>弃用br-lan地址，Tailscale不吃这套</li>
+<li><strong>MTU&#x2F;PMTUD</strong> — tailscale0 MTU 1280，客户端降到1280也没用，fw3已经配好了MSS钳制</li>
+<li><strong>强制DERP中继</strong> — <code>TS_DEBUG_DISABLE_DIRECT=true</code>，走中继也一样卡</li>
+<li><strong>conntrack</strong> — <code>tcp_be_liberal=1</code>已经设了，<code>nf_conntrack_checksum=0</code>也关了，conntrack表也没满</li>
+<li><strong>Qualcomm ECM硬件加速</strong> — <code>rmmod ecm</code>卸了也没用</li>
+<li><strong>关闭MASQUERADE</strong> — 这个最离谱，关了masq以后TCP&#x2F;UDP直接完全不通了。Tailscale的packet filter会在SNAT之前检查源IP，192.168.x.x不是Tailscale地址直接给你丢了。所以masq是必须的，没得选</li>
+<li><strong>关闭tailscale0的GRO&#x2F;GSO&#x2F;TSO</strong> — <code>ethtool -K tailscale0 gso off gro off tso off</code>，没用，内核转发路径内部还是会做GSO聚合</li>
+<li><strong>iptables NOTRACK</strong> — QWRT的iptables v1.8.3 legacy版连NOTRACK target都没有，<code>CT --notrack</code>直接把连接搞断了</li>
+</ol>
+<p>基本上能想到的都试了个遍，每次都满怀希望然后失望。</p>
+<h3 id="关键突破：br-lan抓包"><a href="#关键突破：br-lan抓包" class="headerlink" title="关键突破：br-lan抓包"></a>关键突破：br-lan抓包</h3><p>最后在br-lan上抓包的时候发现了端倪：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 2480字节的段 → 客户端没收到</span><br><span class="line">15:33:33.76921 seq 112:2592   length 2480  ← 丢了</span><br><span class="line">15:33:33.770045 seq 2592:5072  length 2480  ← 丢了</span><br><span class="line">15:33:33.770122 seq 5072:7552  length 2480  ← 丢了</span><br><span class="line">15:33:33.770192 seq 7552:10032 length 2480  ← 丢了</span><br><span class="line"></span><br><span class="line"># 1240字节的段 → 客户端正常收到</span><br><span class="line">15:33:33.793373 seq 14992:16232 length 1240  ← 收到了!</span><br><span class="line"></span><br><span class="line"># 客户端SACK：我只收到了14992:16232这一个段，前面的全没收到</span><br><span class="line">15:33:33.793511 ack 112, sack &#123;14992:16232&#125;</span><br><span class="line"></span><br><span class="line"># 重传变成1240字节 → 收到了</span><br><span class="line">15:33:33.800682 seq 112:1352   length 1240  ← 收到了!</span><br></pre></td></tr></table></figure>
+
+<p>看到这个抓包结果的时候人都傻了。2480字节的段全丢，1240字节的段全收到。2480 &#x3D; 2 × 1240，正好是两个MSS。重传的时候TCP会退回到单MSS发送，所以重传包是1240字节，就能收到。</p>
+<p>这就是为什么速度只有0.2 Mbps——只有重传包能到达客户端，正常发送的数据全被丢了。</p>
+<h2 id="Root-Cause"><a href="#Root-Cause" class="headerlink" title="Root Cause"></a>Root Cause</h2><p>tailscale0的MTU是1280，减去IP+TCP头40字节，MSS是1240。数据从tailscale0进来的时候是一个个1240字节的TCP段，但是内核的转发路径会通过GSO（Generic Segmentation Offload）把多个段聚合成一个大段来提高效率。两个1240聚合成2480，加上40字节头就是2520字节的IP包。</p>
+<p>问题来了：br-lan的MTU是1500。2520 &gt; 1500。</p>
+<p>正常情况下内核应该在发送前把这个GSO大段重新切分成小段，但是br-lan是个软件桥接口，它底下的物理端口<strong>没有正确执行这个分段</strong>。结果就是2520字节的超大以太网帧直接被扔到了线路上，客户端网卡一看这帧超过MTU了，静默丢弃，连个错误都不报。</p>
+<p>为什么只影响TCP下行转发？</p>
+<ul>
+<li><strong>TCP download</strong>：GSO聚合TCP段为超大帧 → 客户端丢弃 ❌</li>
+<li><strong>UDP download</strong>：UDP包不会被GSO聚合，每个包独立且≤MTU ✅</li>
+<li><strong>TCP upload</strong>：客户端发送的段本来就是正确大小，不需要分段 ✅</li>
+<li><strong>TCP直连路由器</strong>：走INPUT路径，本地协议栈内部处理GSO，不经过物理线路 ✅</li>
+</ul>
+<p>完美解释了所有现象。</p>
+<h2 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h2><p>一行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> iface <span class="keyword">in</span> br-lan $(<span class="built_in">ls</span> /sys/class/net/br-lan/brif/ 2&gt;/dev/null); <span class="keyword">do</span></span><br><span class="line">    ethtool -K <span class="string">&quot;<span class="variable">$iface</span>&quot;</span> gso off tso off gro off 2&gt;/dev/null</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>关闭br-lan及其底层物理端口的GSO&#x2F;TSO&#x2F;GRO，强制内核在发送前完成软件分段。</p>
+<p>持久化写到<code>/etc/rc.local</code>的<code>exit 0</code>之前就行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fix: 关闭br-lan GSO/TSO 防止Tailscale转发路径产生超大TCP帧</span></span><br><span class="line"><span class="keyword">for</span> iface <span class="keyword">in</span> br-lan $(<span class="built_in">ls</span> /sys/class/net/br-lan/brif/ 2&gt;/dev/null); <span class="keyword">do</span></span><br><span class="line">    ethtool -K <span class="string">&quot;<span class="variable">$iface</span>&quot;</span> gso off tso off gro off 2&gt;/dev/null</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>关闭GSO&#x2F;TSO对路由器性能基本没影响。br-lan本身就是软件桥接，没有硬件TSO。关了以后只是把分段时机提前到内核协议栈内，CPU开销可以忽略。如果开了硬件flow offloading，大部分WAN↔LAN流量直接绕过内核协议栈，更不受影响。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>折腾了大半年的tailscale subnet路由TCP龟速问题，根因居然是br-lan的GSO没有正确分段，导致超大TCP帧被客户端静默丢弃。UDP不受影响是因为UDP包不会被GSO聚合。上行不受影响是因为客户端发出的包本来就是正确大小。路由器自身不受影响是因为本地协议栈不走物理线路。</p>
+<p>这个问题的坑在于：tcpdump在br-lan上能抓到这些2480字节的包（因为tcpdump在GSO分段之前捕获），所以看起来包是发出去了，但实际上到了线路上就是超大帧，客户端直接丢了。如果不仔细对比包大小和客户端的SACK响应，根本发现不了。</p>
+<p>教训：换路由器以后一定要跑一遍完整的网络测试，不要本着”能跑就行”的态度。还有就是iperf3真的是排查网络问题的神器，早该跑的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/4zure9">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" rel="tag"># 网络管理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/08/27/AMD9950x/" rel="prev" title="PC升级笔记">
+                  <i class="fa fa-angle-left"></i> PC升级笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Azure</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"azurea","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
